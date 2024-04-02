@@ -1,0 +1,16 @@
+current directory: /Users/ducnguyenphuoc/Documents/Studies/ReactNative/todolistapp/vendor/bundle/ruby/2.7.0/gems/nkf-0.2.0/ext/nkf
+/Users/ducnguyenphuoc/.rvm/rubies/ruby-2.7.5/bin/ruby -I /Users/ducnguyenphuoc/.rvm/rubies/ruby-2.7.5/lib/ruby/2.7.0 -r ./siteconf20240402-11724-11uhju0.rb extconf.rb
+creating Makefile
+
+current directory: /Users/ducnguyenphuoc/Documents/Studies/ReactNative/todolistapp/vendor/bundle/ruby/2.7.0/gems/nkf-0.2.0/ext/nkf
+make "DESTDIR=" clean
+
+current directory: /Users/ducnguyenphuoc/Documents/Studies/ReactNative/todolistapp/vendor/bundle/ruby/2.7.0/gems/nkf-0.2.0/ext/nkf
+make "DESTDIR="
+compiling nkf.c
+linking shared-object nkf.bundle
+ld: warning: -multiply_defined is obsolete
+
+current directory: /Users/ducnguyenphuoc/Documents/Studies/ReactNative/todolistapp/vendor/bundle/ruby/2.7.0/gems/nkf-0.2.0/ext/nkf
+make "DESTDIR=" install
+/opt/homebrew/opt/coreutils/bin/ginstall -c -m 0755 nkf.bundle ./.gem.20240402-11724-gv6ghl
