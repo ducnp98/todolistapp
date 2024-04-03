@@ -4,19 +4,20 @@ import TextComponent from "../../components/TextComponent";
 import SectionComponent from "../../components/SectionComponent";
 import RowContainer from "../../components/RowContainer";
 import TitleComponent from "../../components/TitleComponent";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { GlobalColor } from "../../constants/colors";
 import { globalStyle } from "../../styles/globalStyle";
 import CardComponent from "../../components/CardComponent";
 import { View } from "react-native";
+import { Element4, SearchNormal } from "iconsax-react-native";
+import IonIcon from "react-native-vector-icons/Ionicons";
 
 const HomeScreen = () => {
   return (
     <Container>
       <SectionComponent>
         <RowContainer justifyContent="space-between">
-          <TextComponent>dada</TextComponent>
-          <TextComponent>dada</TextComponent>
+          <Element4 color={GlobalColor.desc} size={24} />
+          <IonIcon name="notifications" color={GlobalColor.desc} size={24} />
         </RowContainer>
       </SectionComponent>
       <SectionComponent>
@@ -29,8 +30,8 @@ const HomeScreen = () => {
           justifyContent="space-between"
           customStyle={globalStyle.inputContainer}
         >
-          <TextComponent> Search</TextComponent>
-          <TextComponent> Search</TextComponent>
+          <TextComponent color="lightGray">Search task</TextComponent>
+          <SearchNormal size={20} color={GlobalColor.desc} />
         </RowContainer>
       </SectionComponent>
       <SectionComponent>

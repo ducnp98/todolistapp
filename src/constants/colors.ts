@@ -4,4 +4,5 @@ export const GlobalColor = {
   text: "#ffffff",
   desc: "#e6e6e6",
   blue: "#3618e8",
+  lightGray: "#696B6F"
 };

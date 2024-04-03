@@ -1,0 +1,10 @@
+3/4/2024: Add icon
+
+Đối với icon vector va iconsax: 
+1. Add thư việc
+2. Sau khi add xong, node_module sẽ có folder react-native-vector-icons, copy tất cả file trong folder Fonts
+3. Bỏ hết file vừa copy vào assets/fonts
+4. Run command: npx react-native-asset
+5. Đối với ios, mở xcode -> build phase -> delete: Copy pods resources
+6. Để sử dụng icon vector: run command: yarn add -D @types/react-native-vector-icons
+Done
