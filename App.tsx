@@ -24,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { FontFamily } from './src/constants/fontFamily';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -71,7 +72,7 @@ function App(): React.JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
+        <Text style={{fontFamily: FontFamily.italic}}>Helloo</Text>
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
