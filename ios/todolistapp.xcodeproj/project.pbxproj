@@ -12,8 +12,14 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1816826726A74B67BAA8D735 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 276E8598F00D4E2CA2E5ACFA /* Poppins-Light.ttf */; };
+		1B0557AA800D42548B86F851 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10E3A21CC3394ED2BEE2D687 /* Poppins-Bold.ttf */; };
+		61A65BC2CF334B8DA1279561 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88B3DD7ABF9843F585166465 /* Poppins-SemiBold.ttf */; };
+		6A61A80D890044F1AB109A7F /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14865EDF04CA42189D82ADED /* Poppins-Regular.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-todolistapp-todolistappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-todolistapp-todolistappTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		DE95EE524F2E4D88871CD32C /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E671B52455854983BC462B19 /* Poppins-Italic.ttf */; };
+		EC285217D5A5407AAA2B4BC4 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1A5347D2AF49D998A49361 /* Poppins-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,19 +36,25 @@
 		00E356EE1AD99517003FC87E /* todolistappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = todolistappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* todolistappTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = todolistappTests.m; sourceTree = "<group>"; };
+		0F1A5347D2AF49D998A49361 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		10E3A21CC3394ED2BEE2D687 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* todolistapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todolistapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = todolistapp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = todolistapp/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = todolistapp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = todolistapp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = todolistapp/main.m; sourceTree = "<group>"; };
+		14865EDF04CA42189D82ADED /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-todolistapp-todolistappTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todolistapp-todolistappTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		276E8598F00D4E2CA2E5ACFA /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-todolistapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todolistapp.debug.xcconfig"; path = "Target Support Files/Pods-todolistapp/Pods-todolistapp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-todolistapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todolistapp.release.xcconfig"; path = "Target Support Files/Pods-todolistapp/Pods-todolistapp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-todolistapp-todolistappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todolistapp-todolistappTests.debug.xcconfig"; path = "Target Support Files/Pods-todolistapp-todolistappTests/Pods-todolistapp-todolistappTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-todolistapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todolistapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = todolistapp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		88B3DD7ABF9843F585166465 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-todolistapp-todolistappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todolistapp-todolistappTests.release.xcconfig"; path = "Target Support Files/Pods-todolistapp-todolistappTests/Pods-todolistapp-todolistappTests.release.xcconfig"; sourceTree = "<group>"; };
+		E671B52455854983BC462B19 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -81,6 +93,20 @@
 				00E356F11AD99517003FC87E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0F1DAC91371F416B9B1769A6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				10E3A21CC3394ED2BEE2D687 /* Poppins-Bold.ttf */,
+				E671B52455854983BC462B19 /* Poppins-Italic.ttf */,
+				276E8598F00D4E2CA2E5ACFA /* Poppins-Light.ttf */,
+				0F1A5347D2AF49D998A49361 /* Poppins-Medium.ttf */,
+				14865EDF04CA42189D82ADED /* Poppins-Regular.ttf */,
+				88B3DD7ABF9843F585166465 /* Poppins-SemiBold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		13B07FAE1A68108700A75B9A /* todolistapp */ = {
@@ -122,6 +148,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				0F1DAC91371F416B9B1769A6 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -243,6 +270,12 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				1B0557AA800D42548B86F851 /* Poppins-Bold.ttf in Resources */,
+				DE95EE524F2E4D88871CD32C /* Poppins-Italic.ttf in Resources */,
+				1816826726A74B67BAA8D735 /* Poppins-Light.ttf in Resources */,
+				EC285217D5A5407AAA2B4BC4 /* Poppins-Medium.ttf in Resources */,
+				6A61A80D890044F1AB109A7F /* Poppins-Regular.ttf in Resources */,
+				61A65BC2CF334B8DA1279561 /* Poppins-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +499,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 497H397U22;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = todolistapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -493,6 +527,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 497H397U22;
 				INFOPLIST_FILE = todolistapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -566,9 +601,9 @@
 					"$(inherited)",
 				);
 				LIBRARY_SEARCH_PATHS = (
+					"\"$(inherited)\"",
 					"\"$(SDKROOT)/usr/lib/swift\"",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -639,9 +674,9 @@
 					"$(inherited)",
 				);
 				LIBRARY_SEARCH_PATHS = (
+					"\"$(inherited)\"",
 					"\"$(SDKROOT)/usr/lib/swift\"",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "$(inherited)";
