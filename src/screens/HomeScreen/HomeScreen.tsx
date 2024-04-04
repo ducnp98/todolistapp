@@ -134,6 +134,7 @@ const HomeScreen = () => {
             </RowContainer>
           </CardComponent>
         </SectionComponent>
+        <SpaceComponent height={80} />
       </Container>
       <FlowBottomButton action={() => navigate("AddNewTask")} />
     </View>

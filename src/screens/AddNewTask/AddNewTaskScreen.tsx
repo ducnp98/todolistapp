@@ -7,13 +7,16 @@ import { TaskModel } from "../../models/TaskModel";
 import Container from "../../components/Container";
 import SectionComponent from "../../components/SectionComponent";
 import InputComponent from "../../components/InputComponent";
+import DateTimePickerComponent from "../../components/DateTimePickerComponent";
+import SpaceComponent from "../../components/SpaceComponent";
+import RowContainer from "../../components/RowContainer";
 
 const initial = {
   title: "",
   description: "",
-  dueDate: "",
-  start: "",
-  end: "",
+  dueDate: new Date(),
+  start: new Date(),
+  end: new Date(),
   uuid: [""],
   color: "",
   fileUrls: [""],
@@ -25,7 +28,7 @@ const AddNewTaskScreen = () => {
 
   const [taskDetail, setTaskDetail] = useState<TaskModel>(initial);
 
-  const handleChangeValue = (id: string, value: string) => {
+  const handleChangeValue = (id: string, value: string | Date) => {
     const item: any = { ...taskDetail };
     item[`${id}`] = value;
     setTaskDetail(item);
@@ -40,6 +43,7 @@ const AddNewTaskScreen = () => {
           allowClear={true}
           placeholder="Title of task"
         />
+        <SpaceComponent height={20} />
         <InputComponent
           value={taskDetail.description}
           onChangeText={(value: string) =>
@@ -49,8 +53,33 @@ const AddNewTaskScreen = () => {
           allowClear={true}
           numberOfLines={3}
           multiline
-          placeholder="Title of task"
+          placeholder="Content"
         />
+        <SpaceComponent height={20} />
+        <DateTimePickerComponent
+          selected={taskDetail.dueDate}
+          onSelect={(val) => handleChangeValue("dueDate", val)}
+          placeholder="Choice"
+          type="date"
+          title="Due date"
+        />
+        <RowContainer>
+          <DateTimePickerComponent
+            selected={taskDetail.start}
+            onSelect={(val) => handleChangeValue("start", val)}
+            placeholder="Choice"
+            type="date"
+            title="Start"
+          />
+          <SpaceComponent width={16} />
+          <DateTimePickerComponent
+            selected={taskDetail.end}
+            onSelect={(val) => handleChangeValue("end", val)}
+            placeholder="Choice"
+            type="date"
+            title="End"
+          />
+        </RowContainer>
       </SectionComponent>
     </Container>
   );

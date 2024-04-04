@@ -47,7 +47,7 @@ const Container = ({ title, back, right, children }: Props) => {
           <SpaceComponent width={24} />
         </RowContainer>
       ) : null}
-      <ScrollView>{children}</ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
     </View>
   );
 };
