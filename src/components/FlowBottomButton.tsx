@@ -7,9 +7,11 @@ import { globalStyle } from "../styles/globalStyle";
 import TextComponent from "./TextComponent";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type Props = {};
+type Props = {
+  action?: () => void;
+};
 
-const FlowBottomButton = (props: Props) => {
+const FlowBottomButton = ({ action }: Props) => {
   const insets = useSafeAreaInsets();
 
   const paddingBottom = insets.bottom || 16;
@@ -29,6 +31,8 @@ const FlowBottomButton = (props: Props) => {
     >
       <TouchableOpacity
         activeOpacity={0.9}
+        disabled={!action}
+        onPress={() => action?.()}
         style={[
           globalStyle.rowContainer,
           {

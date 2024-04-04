@@ -8,7 +8,7 @@ import { GlobalColor } from "../../constants/colors";
 import { globalStyle } from "../../styles/globalStyle";
 import CardComponent from "../../components/CardComponent";
 import { TouchableOpacity, View } from "react-native";
-import { Add, Edit2, Element4, SearchNormal } from "iconsax-react-native";
+import { Edit2, Element4, SearchNormal } from "iconsax-react-native";
 import IonIcon from "react-native-vector-icons/Ionicons";
 import TagComponent from "../../components/TagComponent";
 import SpaceComponent from "../../components/SpaceComponent";
@@ -17,8 +17,14 @@ import CardImageComponent from "../../components/CardImageComponent";
 import AvatarGroup from "../../components/AvatarGroupd";
 import ProgressBarComponent from "../../components/ProgressBarComponent";
 import FlowBottomButton from "../../components/FlowBottomButton";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../routers/Routes";
 
 const HomeScreen = () => {
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <View style={{ flex: 1 }}>
       <Container>
@@ -129,7 +135,7 @@ const HomeScreen = () => {
           </CardComponent>
         </SectionComponent>
       </Container>
-      <FlowBottomButton />
+      <FlowBottomButton action={() => navigate("AddNewTask")} />
     </View>
   );
 };
