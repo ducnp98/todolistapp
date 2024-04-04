@@ -1,6 +1,6 @@
 import React from "react";
 import { FontFamily } from "../constants/fontFamily";
-import { Text, TextProps } from "react-native";
+import { StyleProp, Text, TextProps, TextStyle } from "react-native";
 import { GlobalColor } from "../constants/colors";
 
 interface Props extends TextProps {
@@ -8,9 +8,17 @@ interface Props extends TextProps {
   size?: number;
   font?: keyof typeof FontFamily;
   color?: keyof typeof GlobalColor;
+  customStyle?: StyleProp<TextStyle>;
 }
 
-const TextComponent = ({ children, size, font, color, ...res }: Props) => {
+const TextComponent = ({
+  children,
+  size,
+  font,
+  color,
+  customStyle,
+  ...res
+}: Props) => {
   return (
     <Text
       {...res}
@@ -20,6 +28,7 @@ const TextComponent = ({ children, size, font, color, ...res }: Props) => {
           fontFamily: FontFamily[font ?? "regular"],
           color: GlobalColor[color ?? "desc"],
         },
+        customStyle,
       ]}
     >
       {children}

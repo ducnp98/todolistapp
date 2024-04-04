@@ -7,48 +7,130 @@ import TitleComponent from "../../components/TitleComponent";
 import { GlobalColor } from "../../constants/colors";
 import { globalStyle } from "../../styles/globalStyle";
 import CardComponent from "../../components/CardComponent";
-import { View } from "react-native";
-import { Element4, SearchNormal } from "iconsax-react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Add, Edit2, Element4, SearchNormal } from "iconsax-react-native";
 import IonIcon from "react-native-vector-icons/Ionicons";
+import TagComponent from "../../components/TagComponent";
+import SpaceComponent from "../../components/SpaceComponent";
+import CircularComponent from "../../components/CircularComponent";
+import CardImageComponent from "../../components/CardImageComponent";
+import AvatarGroup from "../../components/AvatarGroupd";
+import ProgressBarComponent from "../../components/ProgressBarComponent";
+import FlowBottomButton from "../../components/FlowBottomButton";
 
 const HomeScreen = () => {
   return (
-    <Container>
-      <SectionComponent>
-        <RowContainer justifyContent="space-between">
-          <Element4 color={GlobalColor.desc} size={24} />
-          <IonIcon name="notifications" color={GlobalColor.desc} size={24} />
-        </RowContainer>
-      </SectionComponent>
-      <SectionComponent>
-        <TextComponent>Hi, Jason</TextComponent>
-        <TitleComponent>Be Productive today</TitleComponent>
-      </SectionComponent>
-      <SectionComponent>
-        <RowContainer
-          onPress={() => {}}
-          justifyContent="space-between"
-          customStyle={globalStyle.inputContainer}
-        >
-          <TextComponent color="lightGray">Search task</TextComponent>
-          <SearchNormal size={20} color={GlobalColor.desc} />
-        </RowContainer>
-      </SectionComponent>
-      <SectionComponent>
-        <CardComponent>
+    <View style={{ flex: 1 }}>
+      <Container>
+        <SectionComponent>
+          <RowContainer justifyContent="space-between">
+            <Element4 color={GlobalColor.desc} size={24} />
+            <IonIcon name="notifications" color={GlobalColor.desc} size={24} />
+          </RowContainer>
+        </SectionComponent>
+        <SectionComponent>
+          <TextComponent>Hi, Jason</TextComponent>
+          <TitleComponent>Be Productive today</TitleComponent>
+        </SectionComponent>
+        <SectionComponent>
+          <RowContainer
+            onPress={() => {}}
+            justifyContent="space-between"
+            customStyle={globalStyle.inputContainer}
+          >
+            <TextComponent color="lightGray">Search task</TextComponent>
+            <SearchNormal size={20} color={GlobalColor.desc} />
+          </RowContainer>
+        </SectionComponent>
+        <SectionComponent>
+          <CardComponent>
+            <RowContainer>
+              <View style={{ flex: 1 }}>
+                <TitleComponent>Task progress</TitleComponent>
+                <TextComponent>30/40 tasks done</TextComponent>
+                <SpaceComponent height={12} />
+                <RowContainer alignItems="flex-start">
+                  <TagComponent>March 24</TagComponent>
+                </RowContainer>
+              </View>
+              <View>
+                <CircularComponent value={60} maxValue={100} />
+              </View>
+            </RowContainer>
+          </CardComponent>
+        </SectionComponent>
+        <SectionComponent>
           <RowContainer>
             <View style={{ flex: 1 }}>
-              <TitleComponent>Task progress</TitleComponent>
-              <TextComponent>30/40 tasks done</TextComponent>
-              <TextComponent>Tag</TextComponent>
+              <CardImageComponent>
+                <View style={{ flex: 1, justifyContent: "space-between" }}>
+                  <View>
+                    <TouchableOpacity style={globalStyle.iconContainer}>
+                      <Edit2 color={GlobalColor.white} size={20} />
+                    </TouchableOpacity>
+                    <TitleComponent>UX Design</TitleComponent>
+                    <TextComponent size={13}>
+                      Task management mobile app
+                    </TextComponent>
+                  </View>
+
+                  <View style={{ marginVertical: 16 }}>
+                    <AvatarGroup />
+                    <ProgressBarComponent percent={"70%"} color="#0AACFF" />
+                  </View>
+                  <TextComponent size={12} color="desc">
+                    Due, 2023 March 04
+                  </TextComponent>
+                </View>
+              </CardImageComponent>
             </View>
-            <View>
-              <TextComponent>CircleChar</TextComponent>
+
+            <SpaceComponent width={16} />
+
+            <View style={{ flex: 1 }}>
+              <View>
+                <CardImageComponent color="rgba(33, 150, 243, 0.9)">
+                  <TouchableOpacity style={globalStyle.iconContainer}>
+                    <Edit2 color={GlobalColor.white} size={20} />
+                  </TouchableOpacity>
+                  <TitleComponent>API Payment</TitleComponent>
+                  <View style={{ marginTop: 16 }}>
+                    <AvatarGroup />
+                    <ProgressBarComponent
+                      percent={"40%"}
+                      color="#A2F068"
+                      size="large"
+                    />
+                  </View>
+                </CardImageComponent>
+                <SpaceComponent height={16} />
+                <CardImageComponent color="rgba(18, 181, 23, 0.9)">
+                  <TouchableOpacity style={globalStyle.iconContainer}>
+                    <Edit2 color={GlobalColor.white} size={20} />
+                  </TouchableOpacity>
+                  <TitleComponent>Update work</TitleComponent>
+                  <TextComponent size={13}>Revision homepage</TextComponent>
+                </CardImageComponent>
+              </View>
             </View>
           </RowContainer>
-        </CardComponent>
-      </SectionComponent>
-    </Container>
+        </SectionComponent>
+        <SectionComponent>
+          <TitleComponent size={24}>Urgent task</TitleComponent>
+          <CardComponent>
+            <RowContainer justifyContent="space-between" alignItems="center">
+              <RowContainer alignItems="center">
+                <CircularComponent value={60} maxValue={100} />
+                <SpaceComponent width={16} />
+                <TitleComponent>Title of task</TitleComponent>
+              </RowContainer>
+              <TextComponent>2 left</TextComponent>
+            </RowContainer>
+          </CardComponent>
+        </SectionComponent>
+      </Container>
+      <FlowBottomButton />
+    </View>
   );
 };
 

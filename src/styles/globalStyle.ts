@@ -24,4 +24,26 @@ export const globalStyle = StyleSheet.create({
     backgroundColor: GlobalColor.gray,
     borderRadius: 12,
   },
+
+  tag: {
+    paddingHorizontal: 12,
+    paddingVertical: Platform.OS === "ios" ? 6 : 4,
+    borderRadius: 100,
+    backgroundColor: GlobalColor.blue,
+  },
+
+  card: {
+    borderRadius: 12,
+    flex: 1
+  },
+
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 100,
+    backgroundColor: "rgba(8,0,8,0.2)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16
+  },
 });

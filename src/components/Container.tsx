@@ -13,18 +13,12 @@ type Props = {
 const Container = ({ title, back, right, children }: Props) => {
   const insets = useSafeAreaInsets();
 
-  const paddingTop = insets.top + (Platform.OS === 'android' ? 10 : 0) || 16;
-  const paddingBottom = insets.bottom || 16;
+  const paddingTop = insets.top + (Platform.OS === "android" ? 10 : 0) || 16;
 
   return (
-    <ScrollView
-      style={[
-        globalStyle.container,
-        { paddingTop: paddingTop, paddingBottom: paddingBottom },
-      ]}
-    >
-      {children}
-    </ScrollView>
+    <View style={[globalStyle.container, { paddingTop, flex: 1 }]}>
+      <ScrollView>{children}</ScrollView>
+    </View>
   );
 };
 
