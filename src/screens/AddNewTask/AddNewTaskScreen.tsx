@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { RootStackParamList } from "../../routers/Routes";
 import { TaskModel } from "../../models/TaskModel";
@@ -10,6 +10,9 @@ import InputComponent from "../../components/InputComponent";
 import DateTimePickerComponent from "../../components/DateTimePickerComponent";
 import SpaceComponent from "../../components/SpaceComponent";
 import RowContainer from "../../components/RowContainer";
+import DropdownPickerComponent from "../../components/DropdownPickerComponent";
+import { SelectModel } from "../../models/SelectModel";
+import FirebaseStorage from "@react-native-firebase/firestore";
 
 const initial = {
   title: "",
@@ -17,9 +20,9 @@ const initial = {
   dueDate: new Date(),
   start: new Date(),
   end: new Date(),
-  uuid: [""],
+  uuid: [],
   color: "",
-  fileUrls: [""],
+  fileUrls: [],
 };
 
 const AddNewTaskScreen = () => {
@@ -27,12 +30,43 @@ const AddNewTaskScreen = () => {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const [taskDetail, setTaskDetail] = useState<TaskModel>(initial);
+  const [userSelect, setUserSelect] = useState<SelectModel[]>([]);
 
-  const handleChangeValue = (id: string, value: string | Date) => {
+  const handleGetAllUser = async () => {
+    await FirebaseStorage()
+      .collection("users")
+      .get()
+      .then((res) => {
+        if (res.empty) {
+          console.log("users not found");
+        } else {
+          const list: SelectModel[] = [];
+
+          res.forEach((item) => {
+            list.push({
+              value: item.id,
+              label: item.data().name,
+            });
+          });
+
+          setUserSelect(list);
+        }
+      })
+      .catch((error: any) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    handleGetAllUser();
+  }, []);
+
+  const handleChangeValue = (id: string, value: string | Date | string[]) => {
     const item: any = { ...taskDetail };
     item[`${id}`] = value;
     setTaskDetail(item);
   };
+
   return (
     <Container back={true} title="Add new task">
       <SectionComponent>
@@ -80,6 +114,15 @@ const AddNewTaskScreen = () => {
             title="End"
           />
         </RowContainer>
+        <DropdownPickerComponent
+          title="Members"
+          selected={taskDetail.uuid}
+          multiple
+          items={userSelect}
+          onSelect={(val) => {
+            handleChangeValue("uuid", val)
+          }}
+        />
       </SectionComponent>
     </Container>
   );

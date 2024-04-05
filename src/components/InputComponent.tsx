@@ -12,8 +12,8 @@ import { GlobalColor } from "../constants/colors";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 interface Props extends TextInputProps {
-  placeholder: string;
-  title: string;
+  placeholder?: string;
+  title?: string;
   prefix?: React.ReactNode;
   affix?: string;
   allowClear?: React.ReactNode;

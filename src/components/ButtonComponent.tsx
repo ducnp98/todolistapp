@@ -7,7 +7,7 @@ import { GlobalColor } from "../constants/colors";
 
 interface Props extends TouchableOpacityProps {
   icon?: React.ReactNode;
-  children: string;
+  children: string | React.ReactNode;
   action: () => void;
   color?: string;
 }
@@ -24,9 +24,13 @@ const ButtonComponent = ({ icon, children, action, color }: Props) => {
         customStyle={{ flex: 0, paddingVertical: 10 }}
       >
         {icon ? icon : null}
-        <TextComponent size={14} font="medium">
-          {children}
-        </TextComponent>
+        {typeof children === "string" ? (
+          <TextComponent size={14} font="medium">
+            {children}
+          </TextComponent>
+        ) : (
+          children
+        )}
       </RowContainer>
     </TouchableOpacity>
   );
