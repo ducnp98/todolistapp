@@ -5,5 +5,6 @@ export const GlobalColor = {
   desc: "#e6e6e6",
   blue: "#3168e8",
   lightGray: "#696B6F",
-  white: "#fafafa"
+  white: "#fafafa",
+  coral: "coral",
 };

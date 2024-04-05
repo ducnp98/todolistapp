@@ -8,3 +8,7 @@
 5. Đối với ios, mở xcode -> build phase -> delete: Copy pods resources
 6. Để sử dụng icon vector: run command: yarn add -D @types/react-native-vector-icons
 Done
+
+Đăng nhập đăng ký bằng firebase
+- Sau khi đã tạo và apply thành công firebase vào dự án, hãy kích hoạt phương thức đăng nhập bằng email password 
+trên firebase, lúc này bạn có thể đăng ký đăng nhập trên firebase

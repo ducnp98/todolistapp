@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Container from "../../components/Container";
 import TextComponent from "../../components/TextComponent";
 import SectionComponent from "../../components/SectionComponent";
@@ -8,7 +8,7 @@ import { GlobalColor } from "../../constants/colors";
 import { globalStyle } from "../../styles/globalStyle";
 import CardComponent from "../../components/CardComponent";
 import { TouchableOpacity, View } from "react-native";
-import { Edit2, Element4, SearchNormal } from "iconsax-react-native";
+import { Edit2, Element4, Logout, SearchNormal } from "iconsax-react-native";
 import IonIcon from "react-native-vector-icons/Ionicons";
 import TagComponent from "../../components/TagComponent";
 import SpaceComponent from "../../components/SpaceComponent";
@@ -20,10 +20,17 @@ import FlowBottomButton from "../../components/FlowBottomButton";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../routers/Routes";
+import Auth from "@react-native-firebase/auth";
 
 const HomeScreen = () => {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const user = Auth().currentUser;
+
+  const onSignOut = useCallback(() => {
+    Auth().signOut();
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -35,8 +42,15 @@ const HomeScreen = () => {
           </RowContainer>
         </SectionComponent>
         <SectionComponent>
-          <TextComponent>Hi, Jason</TextComponent>
-          <TitleComponent>Be Productive today</TitleComponent>
+          <RowContainer justifyContent="space-between" alignItems="center">
+            <View>
+              <TextComponent>{`Hi, ${user?.email ?? ""}`}</TextComponent>
+              <TitleComponent>Be Productive today</TitleComponent>
+            </View>
+            <TouchableOpacity onPress={onSignOut}>
+              <Logout size={25} color={GlobalColor.white} />
+            </TouchableOpacity>
+          </RowContainer>
         </SectionComponent>
         <SectionComponent>
           <RowContainer

@@ -39,7 +39,7 @@ const InputComponent = ({
           globalStyle.inputContainer,
           {
             marginTop: title ? 8 : 0,
-            alignItems: "flex-start",
+            alignItems: res.multiline ? "flex-start" : "center",
             minHeight: res.numberOfLines ? 32 * res.numberOfLines : 32,
           },
         ]}
