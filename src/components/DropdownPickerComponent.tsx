@@ -75,7 +75,9 @@ const DropdownPickerComponent = ({
 
   const handleRemoveUser = (id: string) => {
     const index = selected.findIndex((x) => x === id);
-    const updatedData = [...selected].splice(index, 1);
+    const updatedData = [...selected];
+
+    updatedData.splice(index, 1)
     onSelect(updatedData);
   };
 

@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../routers/Routes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import TextComponent from "../../components/TextComponent";
+import { HandleUser } from "../../utils/handleUser";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -37,7 +38,7 @@ const LoginScreen = () => {
           const user = userCredential.user;
 
           if (user) {
-            console.log(user);
+            HandleUser.SaveToDatabase(user)
             setIsLoading(false);
           }
         })

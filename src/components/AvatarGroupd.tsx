@@ -1,17 +1,49 @@
 import { Global } from "iconsax-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GlobalColor } from "../constants/colors";
 import RowContainer from "./RowContainer";
 import TextComponent from "./TextComponent";
 import { Image, View } from "react-native";
+import FirebaseStorage from "@react-native-firebase/firestore";
+import AvatarComponent from "./AvatarComponent";
 
 interface Props {
   uuid: string[];
 }
 
 const AvatarGroup = ({ uuid }: Props) => {
-  const uidLength = 10;
-  const imageUrl = "https://imgupscaler.com/images/samples/animal-after.webp";
+  const [usersName, setUsersName] = useState<
+    {
+      name: string;
+      imgUrl: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    getUserAvatar();
+  }, [uuid]);
+
+  const getUserAvatar = async () => {
+    const items: any = [...usersName];
+    uuid.forEach(async (id) => {
+      await FirebaseStorage()
+        .doc(`users/${id}`)
+        .get()
+        .then((snap: any) => {
+          if (snap.exists) {
+            items.push({
+              name: snap.data().displayName,
+              imgUrl: snap.data().imgUrl ?? "",
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+    setUsersName(items);
+  };
+
   const imageStyle = {
     width: 32,
     height: 32,
@@ -19,21 +51,14 @@ const AvatarGroup = ({ uuid }: Props) => {
     borderWidth: 2,
     borderColor: GlobalColor.white,
   };
-
   return (
-    <RowContainer justifyContent="flex-start">
-      {Array.from({ length: uidLength }).map(
+    <RowContainer justifyContent="flex-start" customStyle={{ flex: 0 }}>
+      {uuid.map(
         (item, index) =>
-          index < 3 && (
-            <Image
-              key={index}
-              source={{ uri: imageUrl }}
-              style={[imageStyle, { marginLeft: index > 0 ? -10 : 0 }]}
-            />
-          )
+          index < 3 && <AvatarComponent uid={item} index={index} key={item} />
       )}
 
-      {uidLength > 5 ? (
+      {uuid.length > 5 ? (
         <View
           style={[
             imageStyle,
@@ -47,7 +72,7 @@ const AvatarGroup = ({ uuid }: Props) => {
           ]}
         >
           <TextComponent size={12} font="semibold" color="gray">
-            {`${uidLength - 3 > 9 ? 9 : uidLength - 3}+`}
+            {`${uuid.length - 3 > 9 ? 9 : uuid.length - 3}+`}
           </TextComponent>
         </View>
       ) : null}

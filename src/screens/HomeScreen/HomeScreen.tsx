@@ -43,7 +43,7 @@ const HomeScreen = () => {
 
     await FirebaseStore()
       .collection("task")
-      .orderBy("dueDate")
+      .where("uuid", "array-contains", user?.uid)
       .limit(3)
       .onSnapshot((res) => {
         if (res.empty) {
@@ -159,7 +159,10 @@ const HomeScreen = () => {
                     <CardImageComponent
                       color="rgba(33, 150, 243, 0.9)"
                       onPress={() =>
-                        navigateToTaskDetail(tasks[1].id ?? "", "rgba(33, 150, 243, 0.9)")
+                        navigateToTaskDetail(
+                          tasks[1].id ?? "",
+                          "rgba(33, 150, 243, 0.9)"
+                        )
                       }
                     >
                       <TouchableOpacity style={globalStyle.iconContainer}>
@@ -201,6 +204,7 @@ const HomeScreen = () => {
         )}
         <SectionComponent>
           <TitleComponent size={24}>Urgent task</TitleComponent>
+          <SpaceComponent height={8} />
           <CardComponent>
             <RowContainer justifyContent="space-between" alignItems="center">
               <RowContainer alignItems="center">

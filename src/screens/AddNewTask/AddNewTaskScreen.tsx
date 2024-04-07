@@ -17,6 +17,7 @@ import TitleComponent from "../../components/TitleComponent";
 import TextComponent from "../../components/TextComponent";
 import FlowBottomButton from "../../components/FlowBottomButton";
 import UploadFileComponent from "../../components/UploadFileComponent";
+import Auth from "@react-native-firebase/auth";
 
 const initial = {
   id: "",
@@ -41,6 +42,8 @@ const AddNewTaskScreen = () => {
   const [userSelect, setUserSelect] = useState<SelectModel[]>([]);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
 
+  const user = Auth().currentUser;
+
   const handleGetAllUser = async () => {
     await FirebaseStorage()
       .collection("users")
@@ -54,7 +57,7 @@ const AddNewTaskScreen = () => {
           res.forEach((item) => {
             list.push({
               value: item.id,
-              label: item.data().name,
+              label: item.data().displayName,
             });
           });
 
@@ -76,7 +79,16 @@ const AddNewTaskScreen = () => {
     setTaskDetail(item);
   };
 
+  useEffect(() => {
+    user && setTaskDetail((pre) => ({ ...pre, uuid: [user.uid] }));
+  }, [user]);
+
   const handleAddNewTask = async () => {
+    if (!user) {
+      Alert.alert("You are not logged in yet!");
+      return;
+    }
+
     const data = {
       ...taskDetail,
       attachments,
