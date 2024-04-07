@@ -1,7 +1,9 @@
 import React from "react";
 import {
+  StyleProp,
   TextInput,
   TextInputProps,
+  TextStyle,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -18,6 +20,8 @@ interface Props extends TextInputProps {
   affix?: string;
   allowClear?: React.ReactNode;
   value: string;
+  color?: string;
+  customTitleStyle?: StyleProp<TextStyle>
   onChangeText: (value: string) => void;
 }
 
@@ -28,19 +32,23 @@ const InputComponent = ({
   title,
   prefix,
   affix,
+  color,
   allowClear,
+  customTitleStyle,
   ...res
 }: Props) => {
   return (
     <View>
-      {title ? <TitleComponent>{title}</TitleComponent> : null}
+      {title ? <TitleComponent customStyle={customTitleStyle}>{title}</TitleComponent> : null}
       <RowContainer
         customStyle={[
           globalStyle.inputContainer,
           {
+            flex: 0,
             marginTop: title ? 8 : 0,
             alignItems: res.multiline ? "flex-start" : "center",
             minHeight: res.numberOfLines ? 32 * res.numberOfLines : 32,
+            backgroundColor: color ?? GlobalColor.gray,
           },
         ]}
       >

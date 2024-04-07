@@ -1,5 +1,10 @@
 import React from "react";
-import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import {
+  ActivityIndicator,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+} from "react-native";
 import RowContainer from "./RowContainer";
 import TextComponent from "./TextComponent";
 import { Global } from "iconsax-react-native";
@@ -10,9 +15,16 @@ interface Props extends TouchableOpacityProps {
   children: string | React.ReactNode;
   action: () => void;
   color?: string;
+  isLoading?: boolean;
 }
 
-const ButtonComponent = ({ icon, children, action, color }: Props) => {
+const ButtonComponent = ({
+  icon,
+  children,
+  action,
+  color,
+  isLoading,
+}: Props) => {
   return (
     <TouchableOpacity
       onPress={action}
@@ -25,9 +37,12 @@ const ButtonComponent = ({ icon, children, action, color }: Props) => {
       >
         {icon ? icon : null}
         {typeof children === "string" ? (
-          <TextComponent size={14} font="medium">
-            {children}
-          </TextComponent>
+          <>
+            <TextComponent size={14} font="medium">
+              {children}
+            </TextComponent>
+            {isLoading ? <ActivityIndicator /> : null}
+          </>
         ) : (
           children
         )}

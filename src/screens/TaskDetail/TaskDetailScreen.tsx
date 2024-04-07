@@ -33,6 +33,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import UploadFileComponent from "../../components/UploadFileComponent";
 import { calcFileSize } from "../../utils/calcFileSize";
 import FlowBottomButton from "../../components/FlowBottomButton";
+import ModalAddSubTask from "../../components/ModalAddSubtask";
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, "TaskDetail"> {}
@@ -75,15 +76,15 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
     }
   }, [progress, taskDetail, attachments]);
 
-  // useEffect(() => {
-  //   if (subTasks.length > 0) {
-  //     const completedPercent =
-  //       subTasks.filter(element => element.isCompleted).length /
-  //       subTasks.length;
+  useEffect(() => {
+    if (subTasks.length > 0) {
+      const completedPercent =
+        subTasks.filter((element) => element.isCompleted).length /
+        subTasks.length;
 
-  //     setProgress(completedPercent);
-  //   }
-  // }, [subTasks]);
+      setProgress(completedPercent);
+    }
+  }, [subTasks]);
 
   const getTaskDetail = () => [
     FirebaseStorage()
@@ -142,48 +143,48 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
       .catch((error) => console.log("error", error));
   };
 
-  // const handleUpdateSubTask = async (id: string, isCompleted: boolean) => {
-  //   try {
-  //     await firestore()
-  //       .doc(`subTasks/${id}`)
-  //       .update({isCompleted: !isCompleted});
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const handleRemoveTask = () => {
-  //   Alert.alert('Confirm', 'Are you sure, you want delete task?', [
-  //     {
-  //       text: 'Cancel',
-  //       style: 'cancel',
-  //       onPress: () => console.log('Cancel'),
-  //     },
-  //     {
-  //       text: 'Delete',
-  //       style: 'destructive',
-  //       onPress: async () => {
-  //         await firestore()
-  //           .doc(`tasks/${id}`)
-  //           .delete()
-  //           .then(() => {
-  //             taskDetail?.uids.forEach(id => {
-  //               HandleNotification.SendNotification({
-  //                 title: 'Delete task',
-  //                 body: `You task deleted by ${user?.email}`,
-  //                 taskId: '',
-  //                 memberId: id,
-  //               });
-  //             });
+  const handleUpdateSubTask = async (id: string, isCompleted: boolean) => {
+    try {
+      await FirebaseStorage()
+        .doc(`subTasks/${id}`)
+        .update({ isCompleted: !isCompleted });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleRemoveTask = () => {
+    Alert.alert("Confirm", "Are you sure, you want delete task?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+        onPress: () => console.log("Cancel"),
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          await FirebaseStorage()
+            .doc(`tasks/${id}`)
+            .delete()
+            .then(() => {
+              // taskDetail?.uids.forEach(id => {
+              //   HandleNotification.SendNotification({
+              //     title: 'Delete task',
+              //     body: `You task deleted by ${user?.email}`,
+              //     taskId: '',
+              //     memberId: id,
+              //   });
+              // });
 
-  //             navigation.goBack();
-  //           })
-  //           .catch(error => {
-  //             console.log(error);
-  //           });
-  //       },
-  //     },
-  //   ]);
-  // };
+              navigation.goBack();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        },
+      },
+    ]);
+  };
 
   return taskDetail ? (
     <>
@@ -358,6 +359,7 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
               <RowContainer>
                 <View style={{ flex: 1 }}>
                   <Slider
+                    disabled
                     value={progress}
                     onValueChange={(val) => setProgress(val[0])}
                     thumbTintColor={GlobalColor.success}
@@ -398,7 +400,12 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
                     key={`subtask${index}`}
                     customStyle={{ marginBottom: 12 }}
                   >
-                    <RowContainer>
+                    <RowContainer
+                      alignItems="center"
+                      onPress={() =>
+                        handleUpdateSubTask(item.id, item.isCompleted)
+                      }
+                    >
                       <TickCircle
                         variant={item.isCompleted ? "Bold" : "Outline"}
                         color={GlobalColor.success}
@@ -407,7 +414,7 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
                       <View style={{ flex: 1, marginLeft: 12 }}>
                         <TextComponent>{item.title}</TextComponent>
                         <TextComponent size={12} hexColor={"#e0e0e0"}>
-                          {item.createdAt + ""}
+                          {moment(item.createdAt).format("DD MMM YYYY") + ""}
                         </TextComponent>
                       </View>
                     </RowContainer>
@@ -424,11 +431,11 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
           </View>
           <SpaceComponent height={100} />
         </ScrollView>
-        {/* <ModalAddSubTask
-        visible={isVisibleModalSubTask}
-        onClose={() => setIsVisibleModalSubTask(false)}
-        taskId={id}
-      /> */}
+        <ModalAddSubTask
+          visible={isVisibleModalSubTask}
+          onClose={() => setIsVisibleModalSubTask(false)}
+          taskId={id}
+        />
         {isChanged ? (
           <FlowBottomButton title="Update" action={handleUpdateTask} />
         ) : null}

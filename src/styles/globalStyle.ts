@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from "react-native";
+import { Dimensions, Platform, StyleSheet } from "react-native";
 import { GlobalColor } from "../constants/colors";
 import { FontFamily } from "../constants/fontFamily";
 
@@ -34,7 +34,7 @@ export const globalStyle = StyleSheet.create({
 
   card: {
     borderRadius: 12,
-    flex: 1
+    flex: 1,
   },
 
   iconContainer: {
@@ -44,6 +44,25 @@ export const globalStyle = StyleSheet.create({
     backgroundColor: "rgba(8,0,8,0.2)",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 16
+    marginBottom: 16,
+  },
+
+  modal: {
+    flex: 1,
+  },
+
+  modalContainer: {
+    padding: 20,
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modalContent: {
+    width: Dimensions.get("window").width * 0.8,
+    padding: 20,
+    borderRadius: 12,
+    backgroundColor: GlobalColor.white,
   },
 });

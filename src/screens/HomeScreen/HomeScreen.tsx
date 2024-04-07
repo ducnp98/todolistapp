@@ -156,7 +156,12 @@ const HomeScreen = () => {
               <View style={{ flex: 1 }}>
                 <View>
                   {tasks[1] ? (
-                    <CardImageComponent color="rgba(33, 150, 243, 0.9)">
+                    <CardImageComponent
+                      color="rgba(33, 150, 243, 0.9)"
+                      onPress={() =>
+                        navigateToTaskDetail(tasks[1].id ?? "", "rgba(33, 150, 243, 0.9)")
+                      }
+                    >
                       <TouchableOpacity style={globalStyle.iconContainer}>
                         <Edit2 color={GlobalColor.white} size={20} />
                       </TouchableOpacity>
