@@ -43,7 +43,7 @@ const HomeScreen = () => {
 
     await FirebaseStore()
       .collection("task")
-      .orderBy('dueDate')
+      .orderBy("dueDate")
       .limit(3)
       .onSnapshot((res) => {
         if (res.empty) {
@@ -51,17 +51,21 @@ const HomeScreen = () => {
         } else {
           const item: any = [];
 
-          res.forEach((x) => item.push({ id: x.id, ...x.data() }));
+          res.forEach((x) => item.push({ ...x.data(), id: x.id }));
 
           setTasks(item);
-          setIsLoading(false);
         }
       });
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
     getNewTask();
   }, []);
+
+  const navigateToTaskDetail = (id: string, color: string) => {
+    navigate("TaskDetail", { id, color });
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -117,14 +121,16 @@ const HomeScreen = () => {
           <SectionComponent>
             <RowContainer>
               <View style={{ flex: 1 }}>
-                <CardImageComponent>
+                <CardImageComponent
+                  onPress={() => navigateToTaskDetail(tasks[0].id ?? "", "")}
+                >
                   <View style={{ flex: 1, justifyContent: "space-between" }}>
                     <View>
                       <TouchableOpacity style={globalStyle.iconContainer}>
                         <Edit2 color={GlobalColor.white} size={20} />
                       </TouchableOpacity>
                       <TitleComponent>{tasks[0].title}</TitleComponent>
-                      <TextComponent size={13}>
+                      <TextComponent size={13} numberOfLines={7}>
                         {tasks[0].description}
                       </TextComponent>
                     </View>
@@ -132,7 +138,10 @@ const HomeScreen = () => {
                     <View style={{ marginVertical: 16 }}>
                       <AvatarGroup uuid={tasks[0].uuid} />
                       {tasks[0].progress ? (
-                        <ProgressBarComponent percent={"70%"} color="#0AACFF" />
+                        <ProgressBarComponent
+                          percent={`${Math.floor(tasks[0].progress * 100)}%`}
+                          color="#0AACFF"
+                        />
                       ) : null}
                     </View>
                     <TextComponent size={12} color="desc">
@@ -156,7 +165,7 @@ const HomeScreen = () => {
                         <AvatarGroup uuid={tasks[1].uuid} />
                         {tasks[1].progress ? (
                           <ProgressBarComponent
-                            percent={"40%"}
+                            percent={Math.floor(tasks[1].progress * 100)}
                             color="#A2F068"
                             size="large"
                           />

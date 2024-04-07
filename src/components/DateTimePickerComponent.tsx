@@ -14,8 +14,8 @@ interface Props {
   type?: "date" | "time" | "datetime";
   title?: string;
   placeholder?: string;
-  selected?: Date;
-  onSelect: (val: Date) => void;
+  selected?: any;
+  onSelect: (val: any) => void;
 }
 
 const DateTimePickerComponent = (props: Props) => {

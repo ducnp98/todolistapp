@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { RootStackParamList } from "../../routers/Routes";
-import { TaskModel } from "../../models/TaskModel";
+import { Attachment, TaskModel } from "../../models/TaskModel";
 import Container from "../../components/Container";
 import SectionComponent from "../../components/SectionComponent";
 import InputComponent from "../../components/InputComponent";
@@ -13,30 +13,24 @@ import RowContainer from "../../components/RowContainer";
 import DropdownPickerComponent from "../../components/DropdownPickerComponent";
 import { SelectModel } from "../../models/SelectModel";
 import FirebaseStorage from "@react-native-firebase/firestore";
-import ButtonComponent from "../../components/ButtonComponent";
 import TitleComponent from "../../components/TitleComponent";
-import { AttachSquare } from "iconsax-react-native";
-import { GlobalColor } from "../../constants/colors";
-import DocumentPicker, {
-  DocumentPickerResponse,
-} from "react-native-document-picker";
 import TextComponent from "../../components/TextComponent";
-import Storage from "@react-native-firebase/storage";
 import FlowBottomButton from "../../components/FlowBottomButton";
+import UploadFileComponent from "../../components/UploadFileComponent";
 
 const initial = {
   id: "",
   title: "",
   description: "",
-  dueDate: new Date(),
-  start: new Date(),
-  end: new Date(),
+  dueDate: undefined,
+  start: undefined,
+  end: undefined,
   uuid: [],
   color: "",
   fileUrls: [],
   progress: 0,
   isUrgent: false,
-  attachments: []
+  attachments: [],
 };
 
 const AddNewTaskScreen = () => {
@@ -45,8 +39,7 @@ const AddNewTaskScreen = () => {
 
   const [taskDetail, setTaskDetail] = useState<TaskModel>(initial);
   const [userSelect, setUserSelect] = useState<SelectModel[]>([]);
-  const [attachments, setAttachments] = useState<DocumentPickerResponse[]>([]);
-  const [attachmentURLs, setAttachmentURLs] = useState<string[]>([]);
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
 
   const handleGetAllUser = async () => {
     await FirebaseStorage()
@@ -83,41 +76,12 @@ const AddNewTaskScreen = () => {
     setTaskDetail(item);
   };
 
-  const onHandleUploadFileOnFirebase = async (item: DocumentPickerResponse) => {
-    const fileName = item.name ?? `file_${Date.now}`;
-
-    const path = `documents/${fileName}`;
-
-    await Storage().ref(path).putFile(item.uri);
-
-    await Storage()
-      .ref(path)
-      .getDownloadURL()
-      .then((res) => {
-        const items = [...attachmentURLs];
-        items.push(res);
-        setAttachmentURLs(items);
-        setAttachments((pre) => [...pre, item]);
-      })
-      .catch((err) => {
-        console.log("errr", err);
-      });
-  };
-
-  const onPickerDocument = () => {
-    DocumentPicker.pick({})
-      .then((res) => {
-        res.forEach((item) => onHandleUploadFileOnFirebase(item));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const handleAddNewTask = async () => {
     const data = {
       ...taskDetail,
-      fileUrls: attachmentURLs,
+      attachments,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     };
 
     await FirebaseStorage()
@@ -190,10 +154,14 @@ const AddNewTaskScreen = () => {
           />
 
           <View>
-            <RowContainer alignItems="center" onPress={onPickerDocument}>
+            <RowContainer alignItems="center">
               <TitleComponent>Attachment</TitleComponent>
               <SpaceComponent width={8} />
-              <AttachSquare size={20} color={GlobalColor.white} />
+              <UploadFileComponent
+                onUpload={(file) =>
+                  file && setAttachments([...attachments, file])
+                }
+              />
             </RowContainer>
             {attachments.length
               ? attachments.map((item, index) => (

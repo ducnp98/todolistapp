@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import auth from "@react-native-firebase/auth";
 import LoginScreen from "../screens/Auth/LoginScreen";
 import RegisterScreen from "../screens/Auth/RegisterScreen";
+import TaskDetailScreen from "../screens/TaskDetail/TaskDetailScreen";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -13,6 +14,7 @@ export type RootStackParamList = {
   SearchTask: undefined;
   Login: undefined;
   RegisterScreen: undefined;
+  TaskDetail: {id: string, color: string}
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -38,6 +40,7 @@ const Routes = () => {
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen name="AddNewTask" component={AddNewTaskScreen} />
       <RootStack.Screen name="SearchTask" component={SearchTaskScreen} />
+      <RootStack.Screen name="TaskDetail" component={TaskDetailScreen} />
     </RootStack.Navigator>
   );
 
