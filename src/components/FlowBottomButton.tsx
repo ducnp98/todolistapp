@@ -1,7 +1,5 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-import TitleComponent from "./TitleComponent";
-import { Add } from "iconsax-react-native";
 import { GlobalColor } from "../constants/colors";
 import { globalStyle } from "../styles/globalStyle";
 import TextComponent from "./TextComponent";
@@ -10,9 +8,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 type Props = {
   action?: () => void;
   title: string;
+  icon?: React.ReactNode;
 };
 
-const FlowBottomButton = ({ action, title }: Props) => {
+const FlowBottomButton = ({ action, title , icon}: Props) => {
   const insets = useSafeAreaInsets();
 
   const paddingBottom = insets.bottom || 16;
@@ -50,7 +49,7 @@ const FlowBottomButton = ({ action, title }: Props) => {
         <TextComponent size={16} font="bold">
           {title}
         </TextComponent>
-        <Add size={22} color={GlobalColor.white} />
+        {icon}
       </TouchableOpacity>
     </View>
   );

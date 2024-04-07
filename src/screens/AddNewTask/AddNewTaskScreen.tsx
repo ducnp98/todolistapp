@@ -1,5 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { RootStackParamList } from "../../routers/Routes";
@@ -18,14 +21,15 @@ import TextComponent from "../../components/TextComponent";
 import FlowBottomButton from "../../components/FlowBottomButton";
 import UploadFileComponent from "../../components/UploadFileComponent";
 import Auth from "@react-native-firebase/auth";
+import moment from "moment";
 
 const initial = {
   id: "",
   title: "",
   description: "",
-  dueDate: undefined,
-  start: undefined,
-  end: undefined,
+  dueDate: "",
+  start: "",
+  end: "",
   uuid: [],
   color: "",
   fileUrls: [],
@@ -34,15 +38,35 @@ const initial = {
   attachments: [],
 };
 
-const AddNewTaskScreen = () => {
+interface Props
+  extends NativeStackScreenProps<RootStackParamList, "AddNewTask"> {}
+
+const AddNewTaskScreen = ({ route }: Props) => {
   const { goBack } =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const { editable, task } = route.params;
 
   const [taskDetail, setTaskDetail] = useState<TaskModel>(initial);
   const [userSelect, setUserSelect] = useState<SelectModel[]>([]);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
 
   const user = Auth().currentUser;
+
+  useEffect(() => {
+    if (task) {
+      setTaskDetail({
+        ...taskDetail,
+        title: task.title,
+        description: task.description,
+        uuid: task.uuid,
+        attachments: task.attachments,
+        dueDate: task.dueDate,
+        end: task.end,
+        start: task.start,
+      });
+    }
+  }, [task]);
 
   const handleGetAllUser = async () => {
     await FirebaseStorage()
@@ -80,8 +104,10 @@ const AddNewTaskScreen = () => {
   };
 
   useEffect(() => {
-    user && setTaskDetail((pre) => ({ ...pre, uuid: [user.uid] }));
-  }, [user]);
+    if (!editable) {
+      user && setTaskDetail((pre) => ({ ...pre, uuid: [user.uid] }));
+    }
+  }, [user, editable]);
 
   const handleAddNewTask = async () => {
     if (!user) {
@@ -92,19 +118,32 @@ const AddNewTaskScreen = () => {
     const data = {
       ...taskDetail,
       attachments,
-      createdAt: Date.now(),
+      createdAt: task ? task.createdAt : Date.now(),
       updatedAt: Date.now(),
     };
 
-    await FirebaseStorage()
-      .collection("task")
-      .add(data)
-      .then((res) => {
-        Alert.alert("Add task successfully");
+    if (task) {
+      console.log("vo day");
+      await FirebaseStorage()
+        .doc(`task/${task.id}`)
+        .update(data)
+        .then((res) => {
+          Alert.alert("Update task successfully");
 
-        goBack();
-      })
-      .catch((err) => console.log(err));
+          goBack();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      await FirebaseStorage()
+        .collection("task")
+        .add(data)
+        .then((res) => {
+          Alert.alert("Add task successfully");
+
+          goBack();
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -189,7 +228,10 @@ const AddNewTaskScreen = () => {
         </SectionComponent>
         <SpaceComponent height={70} />
       </Container>
-      <FlowBottomButton title="SAVE" action={handleAddNewTask} />
+      <FlowBottomButton
+        title={task ? "UPDATE" : "SAVE"}
+        action={handleAddNewTask}
+      />
     </>
   );
 };

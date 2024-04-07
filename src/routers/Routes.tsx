@@ -7,14 +7,15 @@ import auth from "@react-native-firebase/auth";
 import LoginScreen from "../screens/Auth/LoginScreen";
 import RegisterScreen from "../screens/Auth/RegisterScreen";
 import TaskDetailScreen from "../screens/TaskDetail/TaskDetailScreen";
+import { TaskModel } from "../models/TaskModel";
 
 export type RootStackParamList = {
   Home: undefined;
-  AddNewTask: undefined;
+  AddNewTask: { editable: boolean, task?: TaskModel };
   SearchTask: undefined;
   Login: undefined;
   RegisterScreen: undefined;
-  TaskDetail: {id: string, color: string}
+  TaskDetail: { id: string; color: string };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();

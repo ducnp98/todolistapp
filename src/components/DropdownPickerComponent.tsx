@@ -77,7 +77,7 @@ const DropdownPickerComponent = ({
     const index = selected.findIndex((x) => x === id);
     const updatedData = [...selected];
 
-    updatedData.splice(index, 1)
+    updatedData.splice(index, 1);
     onSelect(updatedData);
   };
 
@@ -97,7 +97,6 @@ const DropdownPickerComponent = ({
             flex: 0,
             borderWidth: 0.5,
             borderColor: GlobalColor.lightGray,
-            marginBottom: 8,
           }}
         >
           <TextComponent flex={0}>{item?.label}</TextComponent>
@@ -122,7 +121,7 @@ const DropdownPickerComponent = ({
       >
         <View style={{ flex: 1, paddingRight: 12 }}>
           {selected.length > 0 ? (
-            <RowContainer>
+            <RowContainer customStyle={{ flexWrap: "wrap", rowGap: 8 }}>
               {selected.map((item, index) => renderSelectedItem(item, index))}
             </RowContainer>
           ) : (

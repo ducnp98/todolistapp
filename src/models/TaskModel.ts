@@ -4,9 +4,9 @@ export interface TaskModel {
   id?: string;
   title: string;
   description: string;
-  dueDate?: FirebaseFirestoreTypes.Timestamp;
-  start?: FirebaseFirestoreTypes.Timestamp;
-  end?: FirebaseFirestoreTypes.Timestamp;
+  dueDate?: string;
+  start?: string;
+  end?: string;
   uuid: string[];
   fileUrls: string[],
   color?: string;

@@ -42,7 +42,6 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
   const { id, color } = route.params;
 
   const inset = useSafeAreaInsets();
-  const user = auth().currentUser;
 
   const [progress, setProgress] = useState(0);
   const [isUrgent, setIsUrgent] = useState(false);
@@ -99,12 +98,12 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
       }),
   ];
 
-  // const handleUpdateUrgentState = () => {
-  //   firestore().doc(`tasks/${id}`).update({
-  //     isUrgent: !isUrgent,
-  //     updatedAt: Date.now(),
-  //   });
-  // };
+  const handleUpdateUrgentState = () => {
+    FirebaseStorage().doc(`task/${id}`).update({
+      isUrgent: !isUrgent,
+      updatedAt: Date.now(),
+    });
+  };
 
   const getSubTaskById = () => {
     FirebaseStorage()
@@ -230,9 +229,9 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
                 <SpaceComponent width={4} />
                 {taskDetail.end && taskDetail.start && (
                   <TextComponent flex={0}>
-                    {`${moment(taskDetail.start?.toDate()).format(
-                      "H A"
-                    )} - ${moment(taskDetail.end?.toDate()).format("H A")}`}
+                    {`${moment(taskDetail.start).format("H A")} - ${moment(
+                      taskDetail.end
+                    ).format("H A")}`}
                   </TextComponent>
                 )}
               </RowContainer>
@@ -248,9 +247,7 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
                   <SpaceComponent width={4} />
 
                   <TextComponent flex={0}>
-                    {`${moment(taskDetail.dueDate?.toDate()).format(
-                      "DD MMM YYYY"
-                    )}`}
+                    {`${moment(taskDetail.dueDate).format("DD MMM YYYY")}`}
                   </TextComponent>
                 </RowContainer>
               )}
@@ -291,7 +288,7 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
               </CardComponent>
             </SectionComponent>
             <SectionComponent>
-              <RowContainer>
+              <RowContainer onPress={handleUpdateUrgentState}>
                 <TickSquare
                   variant={isUrgent ? "Bold" : "Outline"}
                   size={24}

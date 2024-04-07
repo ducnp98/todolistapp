@@ -1,5 +1,5 @@
 import { View, Text, Modal, Button, Dimensions } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TitleComponent from "./TitleComponent";
 import TextComponent from "./TextComponent";
 import { ArrowDown2 } from "iconsax-react-native";
@@ -9,6 +9,7 @@ import RowContainer from "./RowContainer";
 import { GlobalColor } from "../constants/colors";
 import { globalStyle } from "../styles/globalStyle";
 import ButtonComponent from "./ButtonComponent";
+import moment from "moment";
 
 interface Props {
   type?: "date" | "time" | "datetime";
@@ -19,10 +20,21 @@ interface Props {
 }
 
 const DateTimePickerComponent = (props: Props) => {
-  const { selected, onSelect, placeholder, title, type } = props;
+  const { selected, onSelect, placeholder = "", title, type } = props;
 
   const [isVisibleModalDateTime, setIsVisibleModalDateTime] = useState(false);
-  const [date, setDate] = useState(selected ?? new Date());
+  const [date, setDate] = useState(new Date());
+
+  const dateTimeFormat = useMemo(() => {
+    return type === "time"
+      ? `${moment(date).format("HH:mm")}`
+      : `${moment(date).format("DD/MM/YYYY")}`;
+  }, [type, date]);
+
+  useEffect(() => {
+    setDate(selected ? new Date(selected) : new Date());
+  }, [selected]);
+
   return (
     <>
       <View style={{ marginBottom: 16, flex: 1 }}>
@@ -35,15 +47,7 @@ const DateTimePickerComponent = (props: Props) => {
           ]}
         >
           <TextComponent flex={1} color={selected ? "text" : "lightGray"}>
-            {selected
-              ? type === "time"
-                ? `${selected.getHours()}:${selected.getMinutes()}`
-                : `${selected.getDate()}/${
-                    selected.getMonth() + 1
-                  }/${selected.getFullYear()}`
-              : placeholder
-              ? placeholder
-              : ""}
+            {selected ? dateTimeFormat : placeholder}
           </TextComponent>
           <ArrowDown2 size={20} color={GlobalColor.text} />
         </RowContainer>
@@ -81,7 +85,7 @@ const DateTimePickerComponent = (props: Props) => {
 
             <ButtonComponent
               action={() => {
-                onSelect(date);
+                onSelect(date.getTime());
                 setIsVisibleModalDateTime(false);
               }}
             >
@@ -90,7 +94,7 @@ const DateTimePickerComponent = (props: Props) => {
             <SpaceComponent height={8} />
 
             <ButtonComponent
-            color={GlobalColor.lightGray}
+              color={GlobalColor.lightGray}
               action={() => {
                 setIsVisibleModalDateTime(false);
               }}

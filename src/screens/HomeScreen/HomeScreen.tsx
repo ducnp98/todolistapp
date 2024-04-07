@@ -8,7 +8,13 @@ import { GlobalColor } from "../../constants/colors";
 import { globalStyle } from "../../styles/globalStyle";
 import CardComponent from "../../components/CardComponent";
 import { ActivityIndicator, TouchableOpacity, View } from "react-native";
-import { Edit2, Element4, Logout, SearchNormal } from "iconsax-react-native";
+import {
+  Add,
+  Edit2,
+  Element4,
+  Logout,
+  SearchNormal,
+} from "iconsax-react-native";
 import IonIcon from "react-native-vector-icons/Ionicons";
 import TagComponent from "../../components/TagComponent";
 import SpaceComponent from "../../components/SpaceComponent";
@@ -31,6 +37,7 @@ const HomeScreen = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [tasks, setTasks] = useState<TaskModel[]>([]);
+  const [urgentTasks, setUrgentTask] = useState<TaskModel[]>([]);
 
   const user = Auth().currentUser;
 
@@ -59,12 +66,38 @@ const HomeScreen = () => {
     setIsLoading(false);
   }, []);
 
+  const getUrgentTask = useCallback(async () => {
+    setIsLoading(true);
+
+    await FirebaseStore()
+      .collection("task")
+      .where("uuid", "array-contains", user?.uid)
+      .where("isUrgent", "==", true)
+      .onSnapshot((res) => {
+        if (res.empty) {
+          setUrgentTask([]);
+        } else {
+          const item: any = [];
+
+          res.forEach((x) => item.push({ ...x.data(), id: x.id }));
+
+          setUrgentTask(item);
+        }
+      });
+    setIsLoading(false);
+  }, []);
+
   useEffect(() => {
     getNewTask();
+    getUrgentTask();
   }, []);
 
   const navigateToTaskDetail = (id: string, color: string) => {
     navigate("TaskDetail", { id, color });
+  };
+
+  const editTask = (task: TaskModel) => {
+    navigate("AddNewTask", { editable: true, task });
   };
 
   return (
@@ -126,7 +159,10 @@ const HomeScreen = () => {
                 >
                   <View style={{ flex: 1, justifyContent: "space-between" }}>
                     <View>
-                      <TouchableOpacity style={globalStyle.iconContainer}>
+                      <TouchableOpacity
+                        style={globalStyle.iconContainer}
+                        onPress={() => editTask(tasks[0])}
+                      >
                         <Edit2 color={GlobalColor.white} size={20} />
                       </TouchableOpacity>
                       <TitleComponent>{tasks[0].title}</TitleComponent>
@@ -165,7 +201,10 @@ const HomeScreen = () => {
                         )
                       }
                     >
-                      <TouchableOpacity style={globalStyle.iconContainer}>
+                      <TouchableOpacity
+                        style={globalStyle.iconContainer}
+                        onPress={() => editTask(tasks[1])}
+                      >
                         <Edit2 color={GlobalColor.white} size={20} />
                       </TouchableOpacity>
                       <TitleComponent>{tasks[1].title}</TitleComponent>
@@ -185,11 +224,14 @@ const HomeScreen = () => {
                     <>
                       <SpaceComponent height={16} />
                       <CardImageComponent color="rgba(18, 181, 23, 0.9)">
-                        <TouchableOpacity style={globalStyle.iconContainer}>
+                        <TouchableOpacity
+                          style={globalStyle.iconContainer}
+                          onPress={() => editTask(tasks[2])}
+                        >
                           <Edit2 color={GlobalColor.white} size={20} />
                         </TouchableOpacity>
                         <TitleComponent>{tasks[1].title}</TitleComponent>
-                        <TextComponent size={13}>
+                        <TextComponent size={13} numberOfLines={6}>
                           {tasks[1].description}
                         </TextComponent>
                       </CardImageComponent>
@@ -205,22 +247,36 @@ const HomeScreen = () => {
         <SectionComponent>
           <TitleComponent size={24}>Urgent task</TitleComponent>
           <SpaceComponent height={8} />
-          <CardComponent>
-            <RowContainer justifyContent="space-between" alignItems="center">
-              <RowContainer alignItems="center">
-                <CircularComponent value={60} maxValue={100} />
-                <SpaceComponent width={16} />
-                <TitleComponent>Title of task</TitleComponent>
-              </RowContainer>
-              <TextComponent>2 left</TextComponent>
-            </RowContainer>
-          </CardComponent>
+          {urgentTasks.length
+            ? urgentTasks.map((item, key) => (
+                <CardComponent key={key}>
+                  <RowContainer
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <RowContainer alignItems="center">
+                      <CircularComponent
+                        value={Math.floor((item.progress || 0) * 100)}
+                        maxValue={100}
+                      />
+                      <SpaceComponent width={16} />
+                      <View>
+                        <TitleComponent>{item.title}</TitleComponent>
+                        <TextComponent>{item.description}</TextComponent>
+                      </View>
+                    </RowContainer>
+                  </RowContainer>
+                </CardComponent>
+              ))
+            : null}
         </SectionComponent>
+
         <SpaceComponent height={80} />
       </Container>
       <FlowBottomButton
-        action={() => navigate("AddNewTask")}
+        action={() => navigate("AddNewTask", { editable: false })}
         title="Add new tasks"
+        icon={<Add size={22} color={GlobalColor.white} />}
       />
     </View>
   );
