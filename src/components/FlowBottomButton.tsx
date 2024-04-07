@@ -9,9 +9,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   action?: () => void;
+  title: string;
 };
 
-const FlowBottomButton = ({ action }: Props) => {
+const FlowBottomButton = ({ action, title }: Props) => {
   const insets = useSafeAreaInsets();
 
   const paddingBottom = insets.bottom || 16;
@@ -47,7 +48,7 @@ const FlowBottomButton = ({ action }: Props) => {
         ]}
       >
         <TextComponent size={16} font="bold">
-          Add new tasks
+          {title}
         </TextComponent>
         <Add size={22} color={GlobalColor.white} />
       </TouchableOpacity>

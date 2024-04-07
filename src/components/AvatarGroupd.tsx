@@ -5,7 +5,11 @@ import RowContainer from "./RowContainer";
 import TextComponent from "./TextComponent";
 import { Image, View } from "react-native";
 
-const AvatarGroup = () => {
+interface Props {
+  uuid: string[];
+}
+
+const AvatarGroup = ({ uuid }: Props) => {
   const uidLength = 10;
   const imageUrl = "https://imgupscaler.com/images/samples/animal-after.webp";
   const imageStyle = {

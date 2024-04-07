@@ -7,4 +7,6 @@ export const GlobalColor = {
   lightGray: "#696B6F",
   white: "#fafafa",
   coral: "coral",
+  red: "red",
+  success: "#00733B",
 };

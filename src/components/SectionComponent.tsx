@@ -5,11 +5,12 @@ import { globalStyle } from "../styles/globalStyle";
 type Props = {
   children: React.ReactNode;
   customStyle?: StyleProp<ViewStyle>;
+  color?: string
 };
 
-const SectionComponent = ({ children, customStyle }: Props) => {
+const SectionComponent = ({ children, customStyle, color }: Props) => {
   return (
-    <View style={[globalStyle.sectionComponent, customStyle]}>{children}</View>
+    <View style={[globalStyle.sectionComponent, customStyle, { backgroundColor: color}]}>{children}</View>
   );
 };
 

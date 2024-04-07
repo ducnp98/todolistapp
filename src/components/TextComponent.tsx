@@ -6,7 +6,8 @@ import { GlobalColor } from "../constants/colors";
 interface Props extends TextProps {
   children: string;
   size?: number;
-  flex?: number
+  flex?: number;
+  hexColor?: string;
   font?: keyof typeof FontFamily;
   color?: keyof typeof GlobalColor;
   customStyle?: StyleProp<TextStyle>;
@@ -18,6 +19,7 @@ const TextComponent = ({
   font,
   flex = 0,
   color,
+  hexColor,
   customStyle,
   ...res
 }: Props) => {
@@ -28,8 +30,8 @@ const TextComponent = ({
         {
           fontSize: size ?? 14,
           fontFamily: FontFamily[font ?? "regular"],
-          color: GlobalColor[color ?? "desc"],
-          flex
+          color: hexColor ? hexColor : GlobalColor[color ?? "desc"],
+          flex,
         },
         customStyle,
       ]}
