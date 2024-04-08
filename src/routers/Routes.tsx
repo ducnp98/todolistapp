@@ -8,14 +8,16 @@ import LoginScreen from "../screens/Auth/LoginScreen";
 import RegisterScreen from "../screens/Auth/RegisterScreen";
 import TaskDetailScreen from "../screens/TaskDetail/TaskDetailScreen";
 import { TaskModel } from "../models/TaskModel";
+import ListTaskScreen from "../screens/ListTask/ListTaskScreen";
 
 export type RootStackParamList = {
   Home: undefined;
-  AddNewTask: { editable: boolean, task?: TaskModel };
+  AddNewTask: { editable: boolean; task?: TaskModel };
   SearchTask: undefined;
   Login: undefined;
   RegisterScreen: undefined;
-  TaskDetail: { id: string; color: string };
+  TaskDetail: { id: string; color?: string };
+  ListTask: { tasks: TaskModel[] };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -42,6 +44,7 @@ const Routes = () => {
       <RootStack.Screen name="AddNewTask" component={AddNewTaskScreen} />
       <RootStack.Screen name="SearchTask" component={SearchTaskScreen} />
       <RootStack.Screen name="TaskDetail" component={TaskDetailScreen} />
+      <RootStack.Screen name="ListTask" component={ListTaskScreen} />
     </RootStack.Navigator>
   );
 

@@ -163,10 +163,10 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
         style: "destructive",
         onPress: async () => {
           await FirebaseStorage()
-            .doc(`tasks/${id}`)
+            .doc(`task/${id}`)
             .delete()
             .then(() => {
-              // taskDetail?.uids.forEach(id => {
+              // taskDetail?.uuid.forEach(id => {
               //   HandleNotification.SendNotification({
               //     title: 'Delete task',
               //     body: `You task deleted by ${user?.email}`,
@@ -419,7 +419,7 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
                 ))}
             </SectionComponent>
             <SectionComponent>
-              <RowContainer onPress={() => {}}>
+              <RowContainer onPress={handleRemoveTask} justifyContent="center">
                 <TextComponent color="red" flex={0}>
                   Delete task
                 </TextComponent>

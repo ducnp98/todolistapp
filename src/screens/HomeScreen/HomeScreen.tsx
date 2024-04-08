@@ -51,37 +51,19 @@ const HomeScreen = () => {
     await FirebaseStore()
       .collection("task")
       .where("uuid", "array-contains", user?.uid)
-      .limit(3)
       .onSnapshot((res) => {
         if (res.empty) {
           console.log("Task not found");
+          setTasks([]);
         } else {
           const item: any = [];
 
           res.forEach((x) => item.push({ ...x.data(), id: x.id }));
 
-          setTasks(item);
-        }
-      });
-    setIsLoading(false);
-  }, []);
-
-  const getUrgentTask = useCallback(async () => {
-    setIsLoading(true);
-
-    await FirebaseStore()
-      .collection("task")
-      .where("uuid", "array-contains", user?.uid)
-      .where("isUrgent", "==", true)
-      .onSnapshot((res) => {
-        if (res.empty) {
-          setUrgentTask([]);
-        } else {
-          const item: any = [];
-
-          res.forEach((x) => item.push({ ...x.data(), id: x.id }));
-
-          setUrgentTask(item);
+          const sort = item.sort(
+            (a: TaskModel, b: TaskModel) => b.createdAt - a.createdAt
+          );
+          setTasks(sort);
         }
       });
     setIsLoading(false);
@@ -89,8 +71,14 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getNewTask();
-    getUrgentTask();
   }, []);
+
+  useEffect(() => {
+    if (tasks.length) {
+      const urgentTaskList = tasks.filter((x) => x.isUrgent);
+      setUrgentTask(urgentTaskList);
+    }
+  }, [tasks]);
 
   const navigateToTaskDetail = (id: string, color: string) => {
     navigate("TaskDetail", { id, color });
@@ -98,6 +86,10 @@ const HomeScreen = () => {
 
   const editTask = (task: TaskModel) => {
     navigate("AddNewTask", { editable: true, task });
+  };
+
+  const navigateToTaskList = () => {
+    navigate("ListTask", { tasks: tasks });
   };
 
   return (
@@ -122,7 +114,7 @@ const HomeScreen = () => {
         </SectionComponent>
         <SectionComponent>
           <RowContainer
-            onPress={() => {}}
+            onPress={navigateToTaskList}
             justifyContent="space-between"
             customStyle={globalStyle.inputContainer}
           >
@@ -133,17 +125,26 @@ const HomeScreen = () => {
 
         <SectionComponent>
           <CardComponent>
-            <RowContainer>
+            <RowContainer onPress={navigateToTaskList}>
               <View style={{ flex: 1 }}>
                 <TitleComponent>Task progress</TitleComponent>
-                <TextComponent>30/40 tasks done</TextComponent>
+                <TextComponent>{`${
+                  tasks.filter((x) => x.progress === 1).length
+                }/${tasks.length}`}</TextComponent>
                 <SpaceComponent height={12} />
                 <RowContainer alignItems="flex-start">
-                  <TagComponent>March 24</TagComponent>
+                  <TagComponent>{moment().format("MMM DD")}</TagComponent>
                 </RowContainer>
               </View>
               <View>
-                <CircularComponent value={60} maxValue={100} />
+                <CircularComponent
+                  value={Math.floor(
+                    (tasks.filter((x) => x.progress === 1).length /
+                      tasks.length) *
+                      100
+                  )}
+                  maxValue={100}
+                />
               </View>
             </RowContainer>
           </CardComponent>
@@ -152,6 +153,12 @@ const HomeScreen = () => {
           <ActivityIndicator />
         ) : tasks.length > 0 ? (
           <SectionComponent>
+            <RowContainer justifyContent="flex-end">
+              <TouchableOpacity onPress={navigateToTaskList}>
+                <TextComponent>See all</TextComponent>
+              </TouchableOpacity>
+            </RowContainer>
+            <SpaceComponent height={16} />
             <RowContainer>
               <View style={{ flex: 1 }}>
                 <CardImageComponent

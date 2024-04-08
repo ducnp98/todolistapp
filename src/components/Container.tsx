@@ -14,9 +14,10 @@ type Props = {
   back?: boolean;
   right?: React.ReactNode;
   children: React.ReactNode;
+  isScroll?: boolean;
 };
 
-const Container = ({ title, back, right, children }: Props) => {
+const Container = ({ title, back, isScroll = true, children }: Props) => {
   const insets = useSafeAreaInsets();
   const { goBack } = useNavigation();
 
@@ -47,7 +48,11 @@ const Container = ({ title, back, right, children }: Props) => {
           <SpaceComponent width={24} />
         </RowContainer>
       ) : null}
-      <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
+      {isScroll ? (
+        <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
+      ) : (
+        <View style={{ flex: 1 }}>{children}</View>
+      )}
     </View>
   );
 };

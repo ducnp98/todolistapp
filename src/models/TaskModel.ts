@@ -12,7 +12,7 @@ export interface TaskModel {
   color?: string;
   attachments: Attachment[];
   progress?: number;
-  createdAt?: number;
+  createdAt: number;
   isUrgent: boolean;
   updatedAt?: number;
 }

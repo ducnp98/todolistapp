@@ -36,6 +36,7 @@ const initial = {
   progress: 0,
   isUrgent: false,
   attachments: [],
+  createdAt: 0,
 };
 
 interface Props
