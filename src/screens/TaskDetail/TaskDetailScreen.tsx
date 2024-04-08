@@ -34,6 +34,8 @@ import UploadFileComponent from "../../components/UploadFileComponent";
 import { calcFileSize } from "../../utils/calcFileSize";
 import FlowBottomButton from "../../components/FlowBottomButton";
 import ModalAddSubTask from "../../components/ModalAddSubtask";
+import { HandleNotification } from "../../utils/handleNotification";
+import Auth from "@react-native-firebase/auth";
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, "TaskDetail"> {}
@@ -42,6 +44,8 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
   const { id, color } = route.params;
 
   const inset = useSafeAreaInsets();
+
+  const user = Auth().currentUser;
 
   const [progress, setProgress] = useState(0);
   const [isUrgent, setIsUrgent] = useState(false);
@@ -166,14 +170,14 @@ const TaskDetailScreen = ({ navigation, route }: Props) => {
             .doc(`task/${id}`)
             .delete()
             .then(() => {
-              // taskDetail?.uuid.forEach(id => {
-              //   HandleNotification.SendNotification({
-              //     title: 'Delete task',
-              //     body: `You task deleted by ${user?.email}`,
-              //     taskId: '',
-              //     memberId: id,
-              //   });
-              // });
+              taskDetail?.uuid.forEach((id) => {
+                HandleNotification.SendNotification({
+                  title: "Delete task",
+                  body: `You task deleted by ${user?.email}`,
+                  taskId: taskDetail.id ?? "",
+                  memberId: id,
+                });
+              });
 
               navigation.goBack();
             })

@@ -30,6 +30,7 @@ import Auth from "@react-native-firebase/auth";
 import FirebaseStore from "@react-native-firebase/firestore";
 import { TaskModel } from "../../models/TaskModel";
 import moment from "moment";
+import { HandleNotification } from "../../utils/handleNotification";
 
 const HomeScreen = () => {
   const { navigate } =
@@ -71,6 +72,8 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getNewTask();
+
+    HandleNotification.checkNotificationPerson();
   }, []);
 
   useEffect(() => {

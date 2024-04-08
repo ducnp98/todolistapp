@@ -12,3 +12,10 @@ Done
 Đăng nhập đăng ký bằng firebase
 - Sau khi đã tạo và apply thành công firebase vào dự án, hãy kích hoạt phương thức đăng nhập bằng email password 
 trên firebase, lúc này bạn có thể đăng ký đăng nhập trên firebase
+
+
+Gửi thông báo thông qua firebase
+- Cần phải có fcmToken, fcmToken giống như địa chỉ nhà, khi gửi thông tin tới fcmToken đó, thì thiết bị sẽ nhận đc thông báo đã đc gửi 
+- fcmToken sẽ đc sinh ra khi người dùng cài app trên thiết bị
+- Sau khi có token, vào firebase mở chức năng Cloud Messaging lên
+- Lưu Cloud Messaging API (Server key) vào một chỗ nào đó

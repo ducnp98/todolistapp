@@ -22,6 +22,7 @@ import FlowBottomButton from "../../components/FlowBottomButton";
 import UploadFileComponent from "../../components/UploadFileComponent";
 import Auth from "@react-native-firebase/auth";
 import moment from "moment";
+import { HandleNotification } from "../../utils/handleNotification";
 
 const initial = {
   id: "",
@@ -124,12 +125,21 @@ const AddNewTaskScreen = ({ route }: Props) => {
     };
 
     if (task) {
-      console.log("vo day");
       await FirebaseStorage()
         .doc(`task/${task.id}`)
         .update(data)
         .then((res) => {
-          Alert.alert("Update task successfully");
+          Alert.alert("Update task successfully")
+
+          userSelect.forEach((x) => {
+            x.value !== user.uid && 
+            HandleNotification.SendNotification({
+              title: "Update Task",
+              taskId: task.id ?? "",
+              body: `Your task has been updated ny ${user.email}`,
+              memberId: x.value,
+            });
+          });
 
           goBack();
         })
@@ -140,6 +150,18 @@ const AddNewTaskScreen = ({ route }: Props) => {
         .add(data)
         .then((res) => {
           Alert.alert("Add task successfully");
+          
+          if (userSelect.length) {
+            userSelect.forEach((x) => {
+              x.value !== user.uid && 
+              HandleNotification.SendNotification({
+                title: "New Task",
+                taskId: res.id ?? "",
+                body: "You has been assign to a new task",
+                memberId: x.value,
+              });
+            });
+          }
 
           goBack();
         })
