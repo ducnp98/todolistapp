@@ -20,6 +20,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CodePushDeploymentKey</key>
+	<string>n-wsX4gZGRBgSd-B3DT5wFANsZXD3XIGDE-ll</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

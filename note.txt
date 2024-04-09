@@ -27,3 +27,12 @@ click vào và navigate tới đúng màn hình cần mở
 - Tạo file linking để khai bao route link tới screen
 - Đôi với máy ảo: npx uri-scheme open todoapp://app/notification --android/ios ----> run app khi app đang tắt đối với máy ảo để test
 - Dùng lệnh linkTo(route) để navigate tới màn hình
+
+Code push
+- Tạo tài khoản appcenter
+- Tạo new app cho IOS và android
+- Add thư việc react-native-code-push vào project
+- Set up android: https://github.com/microsoft/react-native-code-push/blob/master/docs/setup-android.md
+- Set up ios: https://github.com/microsoft/react-native-code-push/blob/master/docs/setup-ios.md
+- Cài đặt appcenter trên máy, run cmt: sudo npm install -g appcenter-cli
+- Login bằng cmt: appcenter login
