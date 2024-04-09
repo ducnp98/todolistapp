@@ -5,6 +5,7 @@ import HomeScreen from "./src/screens/HomeScreen/HomeScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import Routes from "./src/routers/Routes";
+import linking from "./linking";
 
 function App(): React.JSX.Element {
   return (
@@ -15,7 +16,7 @@ function App(): React.JSX.Element {
           barStyle={"light-content"}
           backgroundColor={"transparent"}
         />
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
           <Routes />
         </NavigationContainer>
       </SafeAreaProvider>

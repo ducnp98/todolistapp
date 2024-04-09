@@ -21,7 +21,6 @@ import TextComponent from "../../components/TextComponent";
 import FlowBottomButton from "../../components/FlowBottomButton";
 import UploadFileComponent from "../../components/UploadFileComponent";
 import Auth from "@react-native-firebase/auth";
-import moment from "moment";
 import { HandleNotification } from "../../utils/handleNotification";
 
 const initial = {

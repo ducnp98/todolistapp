@@ -23,7 +23,7 @@ import CardImageComponent from "../../components/CardImageComponent";
 import AvatarGroup from "../../components/AvatarGroupd";
 import ProgressBarComponent from "../../components/ProgressBarComponent";
 import FlowBottomButton from "../../components/FlowBottomButton";
-import { useNavigation } from "@react-navigation/native";
+import { useLinkTo, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../routers/Routes";
 import Auth from "@react-native-firebase/auth";
@@ -31,6 +31,7 @@ import FirebaseStore from "@react-native-firebase/firestore";
 import { TaskModel } from "../../models/TaskModel";
 import moment from "moment";
 import { HandleNotification } from "../../utils/handleNotification";
+import Message from "@react-native-firebase/messaging";
 
 const HomeScreen = () => {
   const { navigate } =
@@ -41,6 +42,7 @@ const HomeScreen = () => {
   const [urgentTasks, setUrgentTask] = useState<TaskModel[]>([]);
 
   const user = Auth().currentUser;
+  const linkTo = useLinkTo();
 
   const onSignOut = useCallback(() => {
     Auth().signOut();
@@ -74,6 +76,19 @@ const HomeScreen = () => {
     getNewTask();
 
     HandleNotification.checkNotificationPerson();
+
+    //Khi click tu thong bao, no se mo app len va navigate toi day,
+    // tai day chung ta se nhan thong bao va handle no
+    Message()
+      .getInitialNotification()
+      .then((res) => {
+        const data = res?.data;
+        const taskId = data?.taskId;
+
+        if (taskId) {
+          linkTo(`/task-detail/${taskId}`);
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -101,7 +116,13 @@ const HomeScreen = () => {
         <SectionComponent>
           <RowContainer justifyContent="space-between">
             <Element4 color={GlobalColor.desc} size={24} />
-            <IonIcon name="notifications" color={GlobalColor.desc} size={24} />
+            <TouchableOpacity onPress={() => navigate("Notification")}>
+              <IonIcon
+                name="notifications"
+                color={GlobalColor.desc}
+                size={24}
+              />
+            </TouchableOpacity>
           </RowContainer>
         </SectionComponent>
         <SectionComponent>

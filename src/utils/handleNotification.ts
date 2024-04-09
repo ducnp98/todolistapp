@@ -29,7 +29,9 @@ export class HandleNotification {
     // }
 
     const fcmToken = await Messaging().getToken();
-    this.updateToken(fcmToken);
+    if (fcmToken) {
+      this.updateToken(fcmToken);
+    }
   };
 
   static updateToken = async (token: string) => {
@@ -104,8 +106,8 @@ export class HandleNotification {
 
         fetch("https://fcm.googleapis.com/fcm/send", requestOptions)
           .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.log("error", error));
+          .then((result) => console.log('notification success', result))
+          .catch((error) => console.log("notification error", error));
       }
     } catch (error) {
       console.log(error);

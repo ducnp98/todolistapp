@@ -19,3 +19,11 @@ Gửi thông báo thông qua firebase
 - fcmToken sẽ đc sinh ra khi người dùng cài app trên thiết bị
 - Sau khi có token, vào firebase mở chức năng Cloud Messaging lên
 - Lưu Cloud Messaging API (Server key) vào một chỗ nào đó
+
+
+Deeplink
+- Deeplink đc sử dụng để có thể mở app và navigate tới màn hình thông qua đường dẫn URL, handle cho case khi nhận notification,
+click vào và navigate tới đúng màn hình cần mở
+- Tạo file linking để khai bao route link tới screen
+- Đôi với máy ảo: npx uri-scheme open todoapp://app/notification --android/ios ----> run app khi app đang tắt đối với máy ảo để test
+- Dùng lệnh linkTo(route) để navigate tới màn hình
