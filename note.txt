@@ -36,3 +36,9 @@ Code push
 - Set up ios: https://github.com/microsoft/react-native-code-push/blob/master/docs/setup-ios.md
 - Cài đặt appcenter trên máy, run cmt: sudo npm install -g appcenter-cli
 - Login bằng cmt: appcenter login
+
+
+Release app android
+Pass: ***** (you know)
+Last and first name: DucNguyen
+Org: ducorg
