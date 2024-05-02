@@ -53,6 +53,18 @@ steps:
       gradleOptions: '-Xmx3072m'
       sonarQubeRunAnalysis: false
 
+# Download secure file from azure library
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: '.env.staging'
+
+  # Copy the .env file
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(System.DefaultWorkingDirectory)'
+      contents: '**/*.env.staging'
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+      cleanTargetFolder: false
   - task: PublishBuildArtifacts@1
     displayName: 'Publish APK to artifacts'
     inputs:

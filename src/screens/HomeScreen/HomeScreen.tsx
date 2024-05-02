@@ -116,6 +116,7 @@ const HomeScreen = () => {
         <SectionComponent>
           <RowContainer justifyContent="space-between">
             <Element4 color={GlobalColor.desc} size={24} />
+            <TextComponent>{process.env.APP_NAME ?? ''}</TextComponent>
             <TouchableOpacity onPress={() => navigate("Notification")}>
               <IonIcon
                 name="notifications"
