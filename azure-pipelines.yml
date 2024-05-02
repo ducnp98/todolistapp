@@ -22,11 +22,11 @@ steps:
   # Start
   - task: DownloadSecureFile@1
     inputs:
-      secureFile: '.env.staging'
+      secureFile: '.env.development'
   - task: CopyFiles@2
     inputs:
       SourceFolder: $(Agent.TempDirectory)
-      Contents: '**\.env.staging'
+      Contents: '**\.env.development'
       TargetFolder: $(Build.SourcesDirectory) 
   # End
   - script: |
