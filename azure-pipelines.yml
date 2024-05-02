@@ -16,6 +16,15 @@ steps:
       versionSpec: '20.10.0' # you can use your desired version here
   - script: yarn install
     displayName: Install Dependencies
+
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: ".env.production"
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: $(Agent.TempDirectory)
+      Contents: "**\.env.production"
+      TargetFolder: $(Build.SourcesDirectory) 
   - script: |
       # Disable autocommit on version bump 
       yarn config set version-sign-git-tag false
@@ -53,18 +62,6 @@ steps:
       gradleOptions: '-Xmx3072m'
       sonarQubeRunAnalysis: false
 
-# Download secure file from azure library
-  - task: DownloadSecureFile@1
-    inputs:
-      secureFile: '.env.staging'
-
-  # Copy the .env file
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: '$(System.DefaultWorkingDirectory)'
-      contents: '**/*.env.staging'
-      targetFolder: '$(Build.ArtifactStagingDirectory)'
-      cleanTargetFolder: false
   - task: PublishBuildArtifacts@1
     displayName: 'Publish APK to artifacts'
     inputs:
