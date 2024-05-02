@@ -17,14 +17,18 @@ steps:
   - script: yarn install
     displayName: Install Dependencies
 
+  # Add file env ... into azure pipeline -> library
+  # To config file env, Add this line with the file you want to using in the release
+  # Start
   - task: DownloadSecureFile@1
     inputs:
-      secureFile: '.env.production'
+      secureFile: '.env.staging'
   - task: CopyFiles@2
     inputs:
       SourceFolder: $(Agent.TempDirectory)
-      Contents: '**\.env.production'
+      Contents: '**\.env.staging'
       TargetFolder: $(Build.SourcesDirectory) 
+  # End
   - script: |
       # Disable autocommit on version bump 
       yarn config set version-sign-git-tag false
