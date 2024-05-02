@@ -38,7 +38,7 @@ const LoginScreen = () => {
           const user = userCredential.user;
 
           if (user) {
-            HandleUser.SaveToDatabase(user)
+            HandleUser.SaveToDatabase(user);
             setIsLoading(false);
           }
         })
@@ -101,6 +101,7 @@ const LoginScreen = () => {
           </Text>
         </RowContainer>
       </SectionComponent>
+      <TextComponent>{process.env.APP_NAME ?? ""}</TextComponent>
     </Container>
   );
 };
