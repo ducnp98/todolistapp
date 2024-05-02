@@ -19,11 +19,11 @@ steps:
 
   - task: DownloadSecureFile@1
     inputs:
-      secureFile: ".env.production"
+      secureFile: '.env.production'
   - task: CopyFiles@2
     inputs:
       SourceFolder: $(Agent.TempDirectory)
-      Contents: "**\.env.production"
+      Contents: '**\.env.production'
       TargetFolder: $(Build.SourcesDirectory) 
   - script: |
       # Disable autocommit on version bump 
