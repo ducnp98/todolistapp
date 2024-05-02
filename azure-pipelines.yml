@@ -1,375 +1,64 @@
-{
-  "variables": {
-    "system.debug": { "value": "false", "allowOverride": true },
-    "lastCommitMessage": {
-      "value": "9/4/2024: Code push config for IOS and android (Only test android first)",
-      "allowOverride": true
-    },
-    "pr.check.id": { "value": "", "allowOverride": true },
-    "pr.status.id": { "value": "", "allowOverride": true },
-    "user-defined.JAVA_HOME": { "value": "$(JAVA_HOME_17_X64)" },
-    "MOBILECENTER_OUTPUT_DIRECTORY": {
-      "value": "$(Build.ArtifactStagingDirectory)/build"
-    },
-    "MOBILECENTER_BRANCH": { "value": "main" },
-    "MOBILECENTER_BUILD_ID": { "value": "$(Build.BuildNumber)" },
-    "MOBILECENTER_SOURCE_DIRECTORY": {
-      "value": "$(Build.Repository.LocalPath)"
-    },
-    "MOBILECENTER_TRIGGER": { "value": "continuous" },
-    "APPCENTER_OUTPUT_DIRECTORY": {
-      "value": "$(Build.ArtifactStagingDirectory)/build"
-    },
-    "APPCENTER_BRANCH": { "value": "main" },
-    "APPCENTER_BUILD_ID": { "value": "$(Build.BuildNumber)" },
-    "APPCENTER_SOURCE_DIRECTORY": { "value": "$(Build.Repository.LocalPath)" },
-    "APPCENTER_TRIGGER": { "value": "continuous" },
-    "artifactVersioning.build.format": {
-      "value": "timestamp",
-      "allowOverride": true
-    },
-    "buildScripts.toolset": { "value": "{}" },
-    "javaScriptRunTests": { "value": "false" },
-    "MOBILECENTER_REACTNATIVE_PACKAGE": { "value": "package.json" },
-    "APPCENTER_REACTNATIVE_PACKAGE": { "value": "package.json" },
-    "moduleName": { "value": "app" },
-    "buildVariant": { "value": "release" },
-    "isRoot": { "value": "false" },
-    "runTests": { "value": "false" },
-    "runLint": { "value": "false" },
-    "keystoreEncoded": { "value": null, "isSecret": true },
-    "automaticSigning": { "value": "true" },
-    "buildBundle": { "value": "false" },
-    "MOBILECENTER_ANDROID_MODULE": { "value": "app" },
-    "MOBILECENTER_ANDROID_VARIANT": { "value": "release" },
-    "APPCENTER_ANDROID_MODULE": { "value": "app" },
-    "APPCENTER_ANDROID_VARIANT": { "value": "release" },
-    "SONOMA_API_SERVER": { "value": "https://api.appcenter.ms" },
-    "SONOMA_API_VERSION": { "value": "v0.1" },
-    "VSMobileCenterUpload.ContinueIfSymbolsNotFound": { "value": "true" },
-    "sonoma.tags": {
-      "value": "continuous,javascript,android,signed,distribution",
-      "allowOverride": true
-    },
-    "artifactVersioning.build.value": { "value": "0", "allowOverride": true }
-  },
-  "buildNumberFormat": "$(artifactVersioning.build.value)",
-  "process": {
-    "phases": [
-      {
-        "steps": [
-          {
-            "environment": {},
-            "enabled": true,
-            "continueOnError": true,
-            "alwaysRun": false,
-            "displayName": "Install build scripts",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "e213ff0f-5d5c-4791-802d-52ea3e7be1f1",
-              "versionSpec": "2.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "targetType": "inline",
-              "scriptName": "",
-              "arguments": "",
-              "workingDirectory": "",
-              "script": "Set-Location -Path '$(Agent.HomeDirectory)'\nInvoke-WebRequest -Uri 'https://appcenterbuildassets.azureedge.net/buildscripts/appcenter-build-assets-latest.zip' -OutFile 'appcenter-build-assets-latest.zip'\nif (Test-Path ./scripts) { Remove-Item -Path ./scripts -Force -Recurse }\nNew-Item -ItemType directory -Path 'scripts' | Out-Null\nunzip -q -d 'scripts' 'appcenter-build-assets-latest.zip'\nInvoke-Expression 'bash ./scripts/init.sh'",
-              "failOnStderr": "true"
-            }
-          },
-          {
-            "environment": { "JAVA_HOME": "$(user-defined.JAVA_HOME)" },
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Select Node.js Version v2",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "6c731c3c-3c68-459a-a5c9-bde6e6595b5b",
-              "versionSpec": "3.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "targetType": "filePath",
-              "filePath": "$(Agent.HomeDirectory)/scripts/select-node-version.sh",
-              "arguments": "node20",
-              "workingDirectory": "",
-              "failOnStderr": "true"
-            }
-          },
-          {
-            "environment": { "JAVA_HOME": "$(user-defined.JAVA_HOME)" },
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "yarn/npm install",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "d9bafed4-0b18-4f58-968d-86655b4d2ce9",
-              "versionSpec": "1.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "filename": "sh",
-              "arguments": "-c \"if [ -f yarn.lock ]; then { yarn install --network-timeout=600000 && yarn list --depth=0; } else npm install; fi\"",
-              "workingFolder": "",
-              "failOnStandardError": "false"
-            }
-          },
-          {
-            "environment": { "JAVA_HOME": "$(user-defined.JAVA_HOME)" },
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Run Jetify",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "d9bafed4-0b18-4f58-968d-86655b4d2ce9",
-              "versionSpec": "2.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "script": "\n            if [ -f node_modules/jetifier/bin/jetify ]; then\n                node node_modules/jetifier/bin/jetify\n            else\n                echo \"Warning: node_modules/jetifier/bin/jetify does not exist\"\n                echo \"         source code will not be upgraded to AndroidX\"\n            fi\n            ",
-              "workingDirectory": "",
-              "failOnStderr": "true"
-            }
-          },
-          {
-            "environment": {},
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Tag build",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "6c731c3c-3c68-459a-a5c9-bde6e6595b5b",
-              "versionSpec": "2.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "scriptPath": "$(Agent.HomeDirectory)/scripts/emit-tags.sh",
-              "args": "$(sonoma.tags)",
-              "disableAutoCwd": "false",
-              "cwd": "",
-              "failOnStandardError": "false"
-            }
-          },
-          {
-            "environment": { "JAVA_HOME": "$(user-defined.JAVA_HOME)" },
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Gradle Task",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "8d8eebd8-2b94-4c97-85af-839254cc6da4",
-              "versionSpec": "1.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "wrapperScript": "android/gradlew",
-              "tasks": "clean :app:assembleRelease ",
-              "options": "-DAPPCENTER_BUILD_VERSION=\"$(Build.BuildNumber)\" -DMOBILECENTER_BUILD_VERSION=\"$(Build.BuildNumber)\" -p \"android\"",
-              "cwd": "",
-              "findbugsAnalysisEnabled": "false",
-              "javaHomeSelection": "JDKVersion",
-              "jdkVersion": "default",
-              "jdkUserInputPath": "",
-              "jdkArchitecture": "x86",
-              "gradleOpts": "-Xmx1024m",
-              "publishJUnitResults": "false",
-              "testResultsFiles": "**/build/test-results/TEST-*.xml",
-              "testRunTitle": "",
-              "codeCoverageTool": "None",
-              "classFilesDirectories": "build/classes/main/",
-              "classFilter": "",
-              "sqAnalysisEnabled": "false",
-              "sqConnectedServiceName": "",
-              "sqProjectName": "",
-              "sqProjectKey": "",
-              "sqProjectVersion": "",
-              "sqDbDetailsRequired": "false",
-              "sqDbUrl": "",
-              "sqDbUsername": "",
-              "sqDbPassword": "",
-              "sqAnalysisIncludeFullReport": "true",
-              "sqAnalysisBreakBuildIfQualityGateFailed": "false",
-              "checkstyleAnalysisEnabled": "false",
-              "pmdAnalysisEnabled": "false"
-            }
-          },
-          {
-            "environment": { "JAVA_HOME": "$(user-defined.JAVA_HOME)" },
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Android Postprocess",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "refName": "appcenter_android_postprocess_output",
-            "task": {
-              "id": "6c731c3c-3c68-459a-a5c9-bde6e6595b5b",
-              "versionSpec": "2.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "scriptPath": "$(Agent.HomeDirectory)/scripts/android-postprocess.sh",
-              "args": "$(build.sourcesdirectory)/android/app/build/outputs/apk",
-              "disableAutoCwd": "false",
-              "cwd": "",
-              "failOnStandardError": "false"
-            }
-          },
-          {
-            "environment": {},
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Copy build files to staging",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "5bfb729a-a7c8-4a78-a7c3-8d717bb7c13c",
-              "versionSpec": "2.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "SourceFolder": "$(build.sourcesdirectory)/android/app/build/outputs",
-              "Contents": "apk/**/*.apk",
-              "TargetFolder": "$(build.artifactstagingdirectory)/build",
-              "CleanTargetFolder": "false",
-              "OverWrite": "true",
-              "flattenFolders": "true"
-            }
-          },
-          {
-            "environment": {},
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Copy mapping files to staging",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "5bfb729a-a7c8-4a78-a7c3-8d717bb7c13c",
-              "versionSpec": "2.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "SourceFolder": "$(build.sourcesdirectory)/android/app/build/outputs",
-              "Contents": "mapping/**/mapping.txt",
-              "TargetFolder": "$(build.artifactstagingdirectory)/mapping",
-              "CleanTargetFolder": "false",
-              "OverWrite": "true",
-              "flattenFolders": "true"
-            }
-          },
-          {
-            "environment": {},
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Publish build",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "task": {
-              "id": "2ff763a7-ce83-4e1f-bc89-0ae63477cebe",
-              "versionSpec": "1.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "PathtoPublish": "$(build.artifactstagingdirectory)/build",
-              "ArtifactName": "build",
-              "ArtifactType": "Container"
-            }
-          },
-          {
-            "environment": {},
-            "enabled": true,
-            "continueOnError": true,
-            "alwaysRun": false,
-            "displayName": "Publish mapping",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "condition": "and(succeeded(), startsWith(variables['appcenter_android_postprocess_output.mapping'], true))",
-            "task": {
-              "id": "2ff763a7-ce83-4e1f-bc89-0ae63477cebe",
-              "versionSpec": "1.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "PathtoPublish": "$(build.artifactstagingdirectory)/mapping",
-              "ArtifactName": "mapping",
-              "ArtifactType": "Container"
-            }
-          },
-          {
-            "environment": {},
-            "enabled": true,
-            "continueOnError": false,
-            "alwaysRun": false,
-            "displayName": "Create distribution",
-            "timeoutInMinutes": 0,
-            "retryCountOnTaskFailure": 0,
-            "condition": "and(succeeded(), ne(variables['Build.Reason'], 'pullRequest'))",
-            "task": {
-              "id": "b832bec5-8c27-4fef-9fb8-6bec8524ad8a",
-              "versionSpec": "3.*",
-              "definitionType": "task"
-            },
-            "inputs": {
-              "serverEndpoint": "e9f5671e-181b-4235-9f4f-76b8ed7987a6",
-              "appSlug": "ducnp98/TodolistApp",
-              "releaseNotesSelection": "input",
-              "releaseNotesFile": "",
-              "destinationType": "groups",
-              "destinationGroupIds": "00000000-0000-0000-0000-000000000000",
-              "isSilent": "False",
-              "releaseNotesInput": "$(lastCommitMessage)",
-              "app": "$(build.artifactstagingdirectory)/build/**/*.apk",
-              "symbolsType": "Android",
-              "mappingTxtPath": "$(build.artifactstagingdirectory)/mapping/**/mapping.txt",
-              "nativeLibrariesPath": "$(build.sourcesdirectory)/**/*.so"
-            }
-          }
-        ],
-        "name": null,
-        "refName": "Phase_1",
-        "condition": "succeeded()",
-        "target": {
-          "executionOptions": null,
-          "allowScriptsAuthAccessOption": false,
-          "type": 1
-        },
-        "jobAuthorizationScope": 0
-      }
-    ],
-    "type": 1
-  },
-  "repository": {
-    "properties": {
-      "connectedServiceId": "0c0078ff-9c47-41aa-acef-9cac6609d468",
-      "gitLfsSupport": "true",
-      "skipSyncSource": "false",
-      "checkoutNestedSubmodules": "true",
-      "fetchDepth": "0",
-      "cleanOptions": "3"
-    },
-    "id": "https://github.com/ducnp98/todolistapp.git",
-    "type": "Git",
-    "name": "git-3316c842-7e47-4b33-8980-546c362c5f01",
-    "url": "https://github.com/ducnp98/todolistapp.git",
-    "defaultBranch": "refs/heads/main",
-    "clean": "true",
-    "checkoutSubmodules": true
-  },
-  "project": { "id": "d857e765-aac4-43d7-87e9-d365ba832865" }
-}
+trigger:
+  branches:
+    include:
+      - main
+variables:
+  - group: Mobile # change it to the name you have set
+pool:
+  vmImage: 'ubuntu-latest'
+steps:
+  - checkout: self
+    persistCredentials: true
+    clean: true
+  - task: NodeTool@0
+    displayName: 'Install Node'
+    inputs:
+      versionSpec: '20.10.0' # you can use your desired version here
+  - script: yarn install
+    displayName: Install Dependencies
+  - script: |
+      # Disable autocommit on version bump 
+      yarn config set version-sign-git-tag false
+      yarn config set version-git-tag false
+      yarn config set version-commit-hooks false
+      # Checkout branch where the build is triggered
+      git checkout $(Build.SourceBranchName)
+      # Extract existing version of package.json
+      oldVer=$(jq -r ".version" package.json)
+      # Bump version
+      yarn version --patch
+      # Add bumped version to staging
+      git add *
+      # Extract new version of package.json
+      newVer=$(jq -r ".version" package.json)
+      # Set environment variables
+      echo "##vso[task.setvariable variable=OLD_VERSION]$oldVer"
+      echo "##vso[task.setvariable variable=NEW_VERSION]$newVer"
+    displayName: 'Bump version and set variables'
+  - task: Gradle@2
+    displayName: 'Build APK'
+    inputs:
+      gradleWrapperFile: 'android/gradlew'
+      workingDirectory: 'android/'
+      options: '-PversionName=$(NEW_VERSION) -PversionCode=$(Build.BuildId)'
+      tasks: 'assembleRelease'
+      publishJUnitResults: false
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.11'
+      gradleOptions: '-Xmx3072m'
+      sonarQubeRunAnalysis: false
+  - task: AndroidSigning@3
+    displayName: 'Sign APK'
+    inputs:
+      apkFiles: 'android/app/build/outputs/apk/release/*.apk'
+      apksignerKeystoreFile: 'keystore.keystore'
+      apksignerKeystorePassword: '$(AndroidKeyStorePassword)'
+      apksignerKeystoreAlias: '$(AndroidKeyAlias)'
+      apksignerKeyPassword: '$(AndroidKeyAliasPassword)'
+      zipalign: true
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish APK to artifacts'
+    inputs:
+      PathtoPublish: 'android/app/build/outputs/apk/release'
+      ArtifactName: 'android'
+      publishLocation: 'Container'
