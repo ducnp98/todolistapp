@@ -37,7 +37,7 @@ steps:
     displayName: 'Bump version and set variables'
   - task: JavaToolInstaller@0
     inputs:
-      versionSpec: '20'
+      versionSpec: '17'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
   - task: Gradle@2
