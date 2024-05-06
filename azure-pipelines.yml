@@ -77,7 +77,7 @@ steps:
     inputs:
       apkFiles: 'android/app/build/outputs/apk/release/app-release.apk' 
       apksign: true 
-      apksignerKeystoreFile: 'android/app/cicd-project-upload-key.keystore'
+      apksignerKeystoreFile: 'cicd-project-upload-key.keystore'
       apksignerKeystorePassword: 'duc12345'
       apksignerKeystoreAlias: 'cicd-project-key-alias'
       apksignerKeyPassword: 'duc12345'
