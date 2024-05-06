@@ -72,3 +72,12 @@ steps:
       PathtoPublish: 'android/app/build/outputs/apk/release'
       ArtifactName: 'android'
       publishLocation: 'Container'
+
+  - task: AndroidSigning@3
+    inputs:
+      apkFiles: 'android/app/build/outputs/apk/release/app-release.apk' 
+      apksign: true 
+      apksignerKeystoreFile: 'android/app/cicd-project-upload-key.keystore'
+      apksignerKeystorePassword: 'duc12345'
+      apksignerKeystoreAlias: 'cicd-project-key-alias'
+      apksignerKeyPassword: 'duc12345'
