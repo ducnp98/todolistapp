@@ -59,31 +59,16 @@ steps:
       gradleWrapperFile: 'android/gradlew'
       workingDirectory: 'android/'
       options: '-PversionName=$(NEW_VERSION) -PversionCode=$(Build.BuildId)'
-      tasks: 'assembleRelease'
+      tasks: 'assembleDebug'
       publishJUnitResults: false
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.17'
       gradleOptions: '-Xmx3072m'
       sonarQubeRunAnalysis: false
 
-  - task: AndroidSigning@3
-    inputs:
-      apkFiles: 'android/app/build/outputs/apk/release/app-release.apk' 
-      apksign: true 
-      apksignerKeystoreFile: 'cicd-project-upload-key.keystore'
-      apksignerKeystorePassword: 'duc12345'
-      apksignerKeystoreAlias: 'cicd-project-key-alias'
-      apksignerKeyPassword: 'duc12345'
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: $(Build.SourcesDirectory)
-      contents: android/app/build/outputs/apk/release/app-release.apk"
-      targetFolder: "$(build.artifactStagingDirectory)"
-
   - task: PublishBuildArtifacts@1
     displayName: 'Publish APK to artifacts'
     inputs:
-      PathtoPublish: 'android/app/build/outputs/apk/release'
+      PathtoPublish: 'android/app/build/outputs/apk/debug'
       ArtifactName: 'android'
       publishLocation: 'Container'
