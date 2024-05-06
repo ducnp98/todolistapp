@@ -1,0 +1,45 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  #Build debug file
+  desc "Prepare Android debug build"
+  lane :build_debug_android do
+    gradle(
+      task: "assembleDebug",
+    )
+
+    gradle(
+      task: "assembleAndroidTest",
+    )
+    print "Build debug android work successfully for android!"
+  end
+
+  #Build release file
+  desc "Prepare Android release build"
+    lane :build_release_android do
+      gradle(
+        task: "assembleRelease",
+      )
+      print "Build release android work successfully for android!"
+    end
+end
